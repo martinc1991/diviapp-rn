@@ -5,13 +5,24 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getUsers } from '../redux/actions/usersActions';
 import { getPayments } from '../redux/actions/paymentActions';
 
-const TextInputComponent = ({ value, onChangeText, name, i }) => (
+const TextInputComponent = ({ value, onChangeCallback, name, i }) => (
 	<TextInput
 		style={styles.inputContainer}
 		value={value}
-		onChangeText={(value) => onChangeText(name, value, i)} //... Bind the name here
+		onChange={(e) => {
+			console.log(name, e.target.value, i, e);
+			onChangeCallback(name, e.target.value, i); //... Bind the name here
+		}}
 	/>
 );
+
+const iteratorFunction = function (n, element) {
+	let result = [];
+	for (let i = 0; i < n; i++) {
+		result.push(element);
+	}
+	return result;
+};
 
 export default function Home() {
 	console.log('render');
@@ -32,27 +43,33 @@ export default function Home() {
 
 	const handleChange = function (name, value, i) {
 		var newPeopleForCalcs = [...peopleForCalcs];
-		if (name === 'spent') {
+		if (name === 'spent' && Number.parseInt(value)) {
 			newPeopleForCalcs[i][name] = Number.parseInt(value);
+			// console.log('dentro del if', newPeopleForCalcs[i][name]);
+		} else {
+			// Si un valor con name === spent entra aca es porque esta pasando letras (o algo que no son numeros al input)
+			newPeopleForCalcs[i][name] = value;
 		}
-		newPeopleForCalcs[i][name] = value;
 		setPepopleForCalcs(newPeopleForCalcs);
 		// console.log(peopleForCalcs);
 	};
 
-	// Submit
-	const handleSubmit = function () {
-		// console.table(peopleForCalcs);
-		var infoToBeSent = [];
-		peopleForCalcs.map((person) => {
-			infoToBeSent.push({ name: person.name, spent: parseInt(person.spent) });
-		});
-		// console.table(infoToBeSent);
-		dispatch(getPayments(infoToBeSent));
-	};
-
+	// Add and remove people
 	const handleAddPeople = function () {
 		setPepopleForCalcs([...peopleForCalcs, { name: '', spent: '' }]);
+	};
+
+	const handleRemovePeople = function (i) {
+		console.log('remove single people');
+		var newPeopleForCalcs = [...peopleForCalcs];
+		newPeopleForCalcs.splice(i, 1);
+		setPepopleForCalcs(newPeopleForCalcs);
+	};
+
+	// Submit
+	const handleSubmit = function () {
+		console.table(peopleForCalcs);
+		dispatch(getPayments(peopleForCalcs));
 	};
 
 	return (
@@ -60,16 +77,31 @@ export default function Home() {
 			<Text>Quienes y cuanto gastaron?</Text>
 			{peopleForCalcs.map((person, i, arr) => {
 				return (
-					<View style={styles.peopleInputContainer} key={i}>
-						<Text>Persona {i + 1}</Text>
-						{/* Nombres */}
-						<TextInputComponent value={peopleForCalcs[i].name} onChangeText={handleChange} name={'name'} i={i} />
-						{/* Montos */}
-						<TextInputComponent value={peopleForCalcs[i].spent} onChangeText={handleChange} name={'spent'} i={i} />
+					<View key={i}>
+						<View style={{ flexDirection: 'column' }}>
+							<View>
+								<Text>Persona {i + 1}</Text>
+							</View>
+							<View style={styles.peopleInputContainer}>
+								{/* Nombres */}
+								<TextInputComponent value={peopleForCalcs[i].name} onChangeCallback={handleChange} name={'name'} i={i} />
+								{/* Montos */}
+								<TextInputComponent value={peopleForCalcs[i].spent} onChangeCallback={handleChange} name={'spent'} i={i} />
+								<Button
+									title='X'
+									onPress={() => {
+										// console.log(e);
+										console.log(i);
+										handleRemovePeople(i);
+									}}
+								/>
+							</View>
+						</View>
 					</View>
 				);
 			})}
 			<Button title='Agregar persona' onPress={handleAddPeople} />
+			{/* <Button title='Sacar persona' onPress={handleRemovePeople} /> */}
 			<View>
 				{payments && payments.length > 0 ? (
 					payments.map((payment, i) => {
