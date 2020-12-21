@@ -105,7 +105,11 @@ export default function Home() {
 			<View>
 				{payments && payments.length > 0 ? (
 					payments.map((payment, i) => {
-						return <Text key={i}>{payment.pago}</Text>;
+						return (
+							<Text key={i}>
+								{payment.from} le debe a {payment.to} ==== ${payment.amount}
+							</Text>
+						);
 					})
 				) : (
 					<Text>No payments yet</Text>

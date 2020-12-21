@@ -1,9 +1,16 @@
 // Esta funcion recibe un array de la forma
 
+// INPUT
 // arrayPersonasPago= [
 // 	{name: String, spent: Number},
 // 	etc...
 // ]
+
+// OUTPUT
+// const resultSchema = {
+// 	participants,
+// 	payments,
+// };
 
 const calculate = function (arrayPersonasPago) {
 	var gastos = [];
@@ -47,7 +54,15 @@ const calculate = function (arrayPersonasPago) {
 			// si el deudor j tiene que pagar menos de lo que tiene que recibir el gastador i
 			// (aca se resuelve el deudor j)
 			if (gastadores[i].deuda + deudores[j].deuda < 0) {
-				resultados.push({ pago: `${deudores[j].name} ----> $ ${deudores[j].deuda} ----> ${gastadores[i].name}` });
+				// Este if es para que no lleguen al resultado pagos de $ 0
+				if (gastadores[i].deuda !== 0) {
+					resultados.push({
+						from: deudores[j].name,
+						amount: deudores[j].deuda,
+						to: gastadores[i].name,
+					});
+				}
+
 				gastadores[i].deuda += deudores[j].deuda;
 				deudores[j].deuda = 0;
 
@@ -56,7 +71,15 @@ const calculate = function (arrayPersonasPago) {
 			// si el deudor j tiene que pagar exactamente lo que tiene que recibir el gastador i
 			// (aca se resuelve el gastador i y el deudor j)
 			else if (deudores[j].deuda + gastadores[i].deuda === 0) {
-				resultados.push({ pago: `${deudores[j].name} ----> $ ${deudores[j].deuda} ----> ${gastadores[i].name}` });
+				// Este if es para que no lleguen al resultado pagos de $ 0
+				if (gastadores[i].deuda !== 0) {
+					resultados.push({
+						from: deudores[j].name,
+						amount: deudores[j].deuda,
+						to: gastadores[i].name,
+					});
+				}
+
 				gastadores[i].deuda += deudores[j].deuda;
 				deudores[j].deuda = 0;
 				gastadores[i].deuda = 0; // esto no seria necesario, pero bueno
@@ -68,7 +91,14 @@ const calculate = function (arrayPersonasPago) {
 			// si el deudor j tiene que pagar mas de lo que tiene que recibir el gastador i
 			// (aca se resuelve el gastador i)
 			else {
-				resultados.push({ pago: `${deudores[j].name} ----> $ ${gastadores[i].deuda * -1} ----> ${gastadores[i].name}` });
+				// Este if es para que no lleguen al resultado pagos de $ 0
+				if (gastadores[i].deuda !== 0) {
+					resultados.push({
+						from: deudores[j].name,
+						amount: gastadores[i].deuda * -1,
+						to: gastadores[i].name,
+					});
+				}
 				deudores[j].deuda += gastadores[i].deuda; // > 0
 				gastadores[i].deuda = 0;
 
@@ -83,7 +113,7 @@ const calculate = function (arrayPersonasPago) {
 
 export const calculatePayments = async (req, res) => {
 	console.log('controllers');
-	console.log(req.body);
+	console.log('req.body', req.body);
 	try {
 		const payments = calculate(req.body);
 		// Send response
