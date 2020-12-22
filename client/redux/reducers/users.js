@@ -1,5 +1,5 @@
 const inicialState = {
-	users: ['No users Yet'],
+	users: [],
 };
 
 // ALWAYS RETURN A NEW OBJECT OR REACT WONT RE-RENDER
