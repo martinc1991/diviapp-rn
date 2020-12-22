@@ -33,28 +33,7 @@ const paymentsObjectToResultsString = function (paymentObject) {
 	return stringResult;
 };
 
-const fnTester = {
-	date: 'Monday 21-12-2020 18:40:58',
-	payments: [
-		{
-			from: 'A',
-			amount: 13,
-			to: 'B',
-		},
-		{
-			from: 'A',
-			amount: 24,
-			to: 'C',
-		},
-		{
-			from: 'D',
-			amount: 137,
-			to: 'C',
-		},
-	],
-};
-
-export default function Home() {
+export default function BasicDivision() {
 	console.log('render');
 	const dispatch = useDispatch();
 	const users = useSelector((state) => state.users.users);
@@ -67,11 +46,6 @@ export default function Home() {
 	]);
 
 	const [text, setText] = useState('');
-
-	// useEffect(() => {
-	// 	dispatch(getUsers());
-	// 	dispatch(getPayments(peopleForCalcs));
-	// }, []);
 
 	const handleChange = function (name, value, i) {
 		var newPeopleForCalcs = [...peopleForCalcs];

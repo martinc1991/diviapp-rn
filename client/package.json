@@ -11,8 +11,10 @@
     "@react-native-community/clipboard": "^1.5.1",
     "@react-native-community/masked-view": "0.1.10",
     "@react-navigation/native": "^5.8.10",
+    "@react-navigation/stack": "^5.12.8",
     "axios": "^0.21.0",
     "expo": "~40.0.0",
+    "expo-clipboard": "~1.0.1",
     "expo-status-bar": "~1.0.3",
     "react": "16.13.1",
     "react-dom": "16.13.1",
@@ -26,8 +28,7 @@
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
     "redux-logger": "^3.0.6",
-    "redux-thunk": "^2.3.0",
-    "expo-clipboard": "~1.0.1"
+    "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0"

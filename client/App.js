@@ -2,12 +2,26 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import { Provider } from 'react-redux';
 import { store } from './redux/store/index.js';
-import Home from './screens/Home';
+// Navigation
+import { NavigationContainer } from '@react-navigation/native'; // React navigation container
+import { createStackNavigator } from '@react-navigation/stack'; // React stack-navigator
+// Screens
+import HomeScreen from './screens/HomeScreen';
+import BasicCalculationScreen from './screens/BasicCalculationScreen';
+import AboutScreen from './screens/AboutScreen';
+
+const Stack = createStackNavigator();
 
 export default function App() {
 	return (
 		<Provider store={store}>
-			<Home />
+			<NavigationContainer>
+				<Stack.Navigator initialRouteName='Home'>
+					<Stack.Screen name='Home' component={HomeScreen} options={{ title: 'Inicio' }} />
+					<Stack.Screen name='BasicCalculation' component={BasicCalculationScreen} options={{ title: 'Calculo Basico' }} />
+					<Stack.Screen name='About' component={AboutScreen} options={{ title: 'Acerca de' }} />
+				</Stack.Navigator>
+			</NavigationContainer>
 		</Provider>
 	);
 }
