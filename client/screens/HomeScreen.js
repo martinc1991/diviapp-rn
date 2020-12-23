@@ -6,6 +6,7 @@ import { getUsers } from '../redux/actions/usersActions';
 import { changeTheme } from '../redux/actions/themeActions';
 import Clipboard from 'expo-clipboard';
 import { Appearance } from 'react-native';
+import MainHomeButton from '../components/MainHomeButton';
 
 export default function Home({ navigation }) {
 	console.log('render');
@@ -22,7 +23,7 @@ export default function Home({ navigation }) {
 			flex: 1,
 			backgroundColor: theme.background || 'red',
 			alignItems: 'center',
-			justifyContent: 'space-evenly',
+			// justifyContent: 'space-evenly',
 		},
 		peopleInputContainer: {
 			flexDirection: 'row',
@@ -47,9 +48,11 @@ export default function Home({ navigation }) {
 	return (
 		<View style={styles.container}>
 			<Text style={styles.text}>Home</Text>
-			<Button title='Calculo Basico' onPress={() => navigation.navigate('BasicCalculation')} />
-			<Button title='Acerca de' onPress={() => navigation.navigate('About')} />
-			<Button title='Cambiar Tema' onPress={() => dispatch(changeTheme)} />
+			<MainHomeButton navigation={navigation} backgroundColor={theme.font} fontColor={theme.background} buttonText={'Calculo Basico'} linkTo='BasicCalculation' />
+			<MainHomeButton navigation={navigation} buttonText={'About'} linkTo='About' disabled={true} />
+			{/* <Button title='Calculo Basico' onPress={() => navigation.navigate('BasicCalculation')} /> */}
+			{/* <Button title='Acerca de' onPress={() => navigation.navigate('About')} /> */}
+			{/* <Button title='Cambiar Tema' onPress={() => dispatch(changeTheme)} /> */}
 			<Switch
 				trackColor={{ false: theme.font, true: theme.font }}
 				thumbColor={!isEnabled ? 'orange' : 'darkorange'}
