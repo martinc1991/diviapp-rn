@@ -80,7 +80,7 @@ export default function CustomDrawerContent(props) {
 
 	return (
 		<DrawerContentScrollView {...props} style={styles.mainDrawerContainer}>
-			{console.log(props)}
+			{/* {console.log(props)} */}
 			<View style={styles.titleContainer}>
 				<Text style={styles.title}>DiviApp</Text>
 			</View>
