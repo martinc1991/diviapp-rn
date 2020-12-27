@@ -48,7 +48,7 @@ export default function CustomDrawerContent(props) {
 	// <--------------------- ESTILOS --------------------->
 	const styles = StyleSheet.create({
 		mainDrawerContainer: {
-			backgroundColor: theme.background,
+			backgroundColor: theme.elevation.high,
 		},
 		titleContainer: {
 			flexDirection: 'row',
@@ -59,19 +59,20 @@ export default function CustomDrawerContent(props) {
 		title: {
 			fontSize: 18,
 			fontFamily: fontsLoaded ? 'basic' : '', // Pretty experimental
-			color: theme.font,
+			color: theme.text.title,
 		},
 		text: {
 			fontSize: 16,
 			fontFamily: fontsLoaded ? 'basic' : '', // Pretty experimental
-			color: theme.font,
+			color: theme.text.title,
 		},
 		hrElement: {
 			borderBottomWidth: StyleSheet.hairlineWidth,
-			borderColor: theme.font,
+			borderColor: theme.text.title,
 		},
 		sectionTitlesContainer: {
-			margin: 10,
+			marginHorizontal: 8,
+			marginVertical: 3,
 		},
 		sectionTitle: {
 			fontSize: 20,
@@ -80,16 +81,27 @@ export default function CustomDrawerContent(props) {
 
 	return (
 		<DrawerContentScrollView {...props} style={styles.mainDrawerContainer}>
-			{/* {console.log(props)} */}
 			<View style={styles.titleContainer}>
 				<Text style={styles.title}>DiviApp</Text>
 			</View>
 			<View style={styles.hrElement}></View>
+			<View style={styles.sectionTitlesContainer}>
+				<DrawerItem
+					icon={() => <Ionicons name='ios-home' color={theme.primary} size={20} style={{ marginHorizontal: 0, justifyContent: 'center', alignItems: 'center' }}></Ionicons>}
+					label='Inicio'
+					labelStyle={styles.text}
+					onPress={() => {
+						// console.log(props);
+						props.navigation.navigate('Home');
+					}}
+				/>
+			</View>
 			{/* .map de las secciones */}
 			{SideBarLinks ? (
 				SideBarLinks.map((seccion, key) => (
 					<View style={styles.sectionTitlesContainer} key={key}>
 						<Text style={styles.title}>{seccion.sectionTitle}</Text>
+						<View style={styles.hrElement}></View>
 						{seccion.links.map((enlace, key) => (
 							<DrawerItem
 								key={key}
@@ -110,7 +122,9 @@ export default function CustomDrawerContent(props) {
 			{/* <DrawerItemList {...props} style={{ color: 'purple' }} />
 			
 			<View style={styles.hrElement}></View> */}
-			<DrawerItem label={DarkModeDrawerItem} icon={() => <Ionicons name={theme.isDark ? 'ios-moon' : 'ios-sunny'} size={20} color={theme.font}></Ionicons>} onPress={() => {}} />
+			<View style={styles.sectionTitlesContainer}>
+				<DrawerItem label={DarkModeDrawerItem} icon={() => <Ionicons name={theme.isDark ? 'ios-moon' : 'ios-sunny'} size={20} color={theme.primary} style={{ marginHorizontal: 0 }}></Ionicons>} onPress={() => {}} />
+			</View>
 		</DrawerContentScrollView>
 	);
 }

@@ -38,6 +38,7 @@ export default function MainHomeButton({ navigation, backgroundColor, fontColor,
 			fontFamily: fontsLoaded ? 'basic' : '', // Pretty experimental
 			// backgroundColor: 'navy',
 			width: '60%',
+			lineHeight: 24,
 		},
 	});
 

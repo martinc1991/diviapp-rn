@@ -25,22 +25,21 @@ export default function Home({ navigation }) {
 			alignItems: 'center',
 			// justifyContent: 'space-evenly',
 		},
-		peopleInputContainer: {
-			flexDirection: 'row',
-			justifyContent: 'space-between',
-			borderWidth: 2,
-			borderColor: 'red',
+		proximamenteContainer: {
+			marginVertical: 20,
+			alignItems: 'center',
 		},
-		inputContainer: {
-			backgroundColor: 'white',
-			borderColor: 'grey',
-			borderWidth: 1,
-			marginVertical: 2,
-			width: '40%',
+		textTitle: {
+			fontSize: 18,
+			textAlign: 'center',
+			color: theme.text.title || 'gold',
+			fontWeight: 'bold',
+			marginBottom: 5,
+			maxWidth: '70%',
 		},
-		text: {
-			fontSize: 44,
-			color: theme.font || 'gold',
+		textBody: {
+			fontSize: 24,
+			color: theme.text.body || 'gold',
 			fontWeight: 'bold',
 		},
 	});
@@ -48,24 +47,21 @@ export default function Home({ navigation }) {
 	return (
 		<View style={styles.container}>
 			<ScrollView>
-				<Text style={styles.text}>Home</Text>
-				<MainHomeButton navigation={navigation} backgroundColor={theme.font} fontColor={theme.background} buttonText={'Calculo Basico'} linkTo='BasicCalculation' />
-				<MainHomeButton navigation={navigation} buttonText={'Modo Vacaciones'} linkTo='' disabled={true} />
-				<MainHomeButton navigation={navigation} buttonText={'Contactos'} linkTo='' disabled={true} />
+				<View style={styles.proximamenteContainer}>
+					<Text style={styles.textTitle}>Bienvenido, que te gustaría hacer hoy?</Text>
+					<MainHomeButton navigation={navigation} backgroundColor={theme.primary} buttonText={'Cálculo rápido'} linkTo='BasicCalculation' />
+					<MainHomeButton navigation={navigation} backgroundColor={theme.secondary} buttonText={'Acerca de esta app'} linkTo='About' />
+				</View>
+				<View style={styles.proximamenteContainer}>
+					<Text style={styles.textTitle}>Proximamente</Text>
+					<MainHomeButton navigation={navigation} buttonText={'Cálculo personalizado'} linkTo='' disabled={true} />
+					<MainHomeButton navigation={navigation} buttonText={'Modo Vacaciones'} linkTo='' disabled={true} />
+					<MainHomeButton navigation={navigation} buttonText={'Contactos'} linkTo='' disabled={true} />
 
-				{/* <Button title='Calculo Basico' onPress={() => navigation.navigate('BasicCalculation')} /> */}
-				{/* <Button title='Acerca de' onPress={() => navigation.navigate('About')} /> */}
-				{/* <Button title='Cambiar Tema' onPress={() => dispatch(changeTheme)} /> */}
-				<Switch
-					trackColor={{ false: theme.font, true: theme.font }}
-					thumbColor={!isEnabled ? 'orange' : 'darkorange'}
-					ios_backgroundColor='#3e3e3e'
-					onValueChange={() => {
-						setIsEnabled((previousState) => !previousState);
-						dispatch(changeTheme);
-					}}
-					value={theme.isDark}
-				></Switch>
+					{/* <Button title='Calculo Basico' onPress={() => navigation.navigate('BasicCalculation')} /> */}
+					{/* <Button title='Acerca de' onPress={() => navigation.navigate('About')} /> */}
+					{/* <Button title='Cambiar Tema' onPress={() => dispatch(changeTheme)} /> */}
+				</View>
 			</ScrollView>
 		</View>
 	);

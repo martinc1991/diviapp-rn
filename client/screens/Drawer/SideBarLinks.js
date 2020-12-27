@@ -14,11 +14,6 @@ const SideBarLinks = [
 		sectionTitle: 'Calculos',
 		links: [
 			{
-				label: 'Inicio',
-				icon: 'ios-home',
-				screen: 'Home',
-			},
-			{
 				label: 'Calculo Basico',
 				icon: 'ios-home',
 				screen: 'BasicCalculation',
