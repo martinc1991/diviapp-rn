@@ -1,17 +1,17 @@
 export const lightColors = {
 	isDark: false,
 	background: 'white',
-	primary: 'darkorange',
-	secondary: 'orange',
-	font: 'black',
+	primary: 'darkgreen',
+	secondary: '#FBAE17',
+	font: '#131313',
 	success: 'limegreen',
 	error: 'firebrick',
 };
 export const darkColors = {
 	isDark: true,
-	background: 'darkgreen',
-	primary: 'darkorange',
-	secondary: 'orange',
+	background: '#131313',
+	primary: 'darkgreen',
+	secondary: '#FBAE17',
 	font: 'white',
 	success: 'limegreen',
 	error: 'firebrick',

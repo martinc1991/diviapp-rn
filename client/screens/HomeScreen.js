@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, StyleSheet, Switch, Text, TextInput, View } from 'react-native';
+import { Button, ScrollView, StyleSheet, Switch, Text, TextInput, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { useSelector, useDispatch } from 'react-redux';
 import { getUsers } from '../redux/actions/usersActions';
@@ -47,22 +47,26 @@ export default function Home({ navigation }) {
 
 	return (
 		<View style={styles.container}>
-			<Text style={styles.text}>Home</Text>
-			<MainHomeButton navigation={navigation} backgroundColor={theme.font} fontColor={theme.background} buttonText={'Calculo Basico'} linkTo='BasicCalculation' />
-			<MainHomeButton navigation={navigation} buttonText={'About'} linkTo='About' disabled={true} />
-			{/* <Button title='Calculo Basico' onPress={() => navigation.navigate('BasicCalculation')} /> */}
-			{/* <Button title='Acerca de' onPress={() => navigation.navigate('About')} /> */}
-			{/* <Button title='Cambiar Tema' onPress={() => dispatch(changeTheme)} /> */}
-			<Switch
-				trackColor={{ false: theme.font, true: theme.font }}
-				thumbColor={!isEnabled ? 'orange' : 'darkorange'}
-				ios_backgroundColor='#3e3e3e'
-				onValueChange={() => {
-					setIsEnabled((previousState) => !previousState);
-					dispatch(changeTheme);
-				}}
-				value={theme.isDark}
-			></Switch>
+			<ScrollView>
+				<Text style={styles.text}>Home</Text>
+				<MainHomeButton navigation={navigation} backgroundColor={theme.font} fontColor={theme.background} buttonText={'Calculo Basico'} linkTo='BasicCalculation' />
+				<MainHomeButton navigation={navigation} buttonText={'Modo Vacaciones'} linkTo='' disabled={true} />
+				<MainHomeButton navigation={navigation} buttonText={'Contactos'} linkTo='' disabled={true} />
+
+				{/* <Button title='Calculo Basico' onPress={() => navigation.navigate('BasicCalculation')} /> */}
+				{/* <Button title='Acerca de' onPress={() => navigation.navigate('About')} /> */}
+				{/* <Button title='Cambiar Tema' onPress={() => dispatch(changeTheme)} /> */}
+				<Switch
+					trackColor={{ false: theme.font, true: theme.font }}
+					thumbColor={!isEnabled ? 'orange' : 'darkorange'}
+					ios_backgroundColor='#3e3e3e'
+					onValueChange={() => {
+						setIsEnabled((previousState) => !previousState);
+						dispatch(changeTheme);
+					}}
+					value={theme.isDark}
+				></Switch>
+			</ScrollView>
 		</View>
 	);
 }
