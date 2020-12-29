@@ -48,7 +48,7 @@ export default function CustomDrawerContent(props) {
 	// <--------------------- ESTILOS --------------------->
 	const styles = StyleSheet.create({
 		mainDrawerContainer: {
-			backgroundColor: theme.elevation.high,
+			backgroundColor: theme.elevation.low,
 		},
 		titleContainer: {
 			flexDirection: 'row',
@@ -57,9 +57,19 @@ export default function CustomDrawerContent(props) {
 			marginVertical: 10,
 		},
 		title: {
-			fontSize: 18,
+			fontSize: 22,
 			fontFamily: fontsLoaded ? 'basic' : '', // Pretty experimental
 			color: theme.text.title,
+		},
+		sectionTitle: {
+			fontSize: 20,
+			fontFamily: fontsLoaded ? 'basic' : '', // Pretty experimental
+			color: theme.text.title || 'grey',
+			marginBottom: 5,
+		},
+		configContainer: {
+			marginHorizontal: 8,
+			marginTop: 55,
 		},
 		text: {
 			fontSize: 16,
@@ -67,15 +77,12 @@ export default function CustomDrawerContent(props) {
 			color: theme.text.title,
 		},
 		hrElement: {
-			borderBottomWidth: StyleSheet.hairlineWidth,
-			borderColor: theme.text.title,
+			borderBottomWidth: 1,
+			borderColor: theme.text.disabled,
 		},
 		sectionTitlesContainer: {
 			marginHorizontal: 8,
 			marginVertical: 3,
-		},
-		sectionTitle: {
-			fontSize: 20,
 		},
 	});
 
@@ -100,7 +107,7 @@ export default function CustomDrawerContent(props) {
 			{SideBarLinks ? (
 				SideBarLinks.map((seccion, key) => (
 					<View style={styles.sectionTitlesContainer} key={key}>
-						<Text style={styles.title}>{seccion.sectionTitle}</Text>
+						<Text style={styles.sectionTitle}>{seccion.sectionTitle}</Text>
 						<View style={styles.hrElement}></View>
 						{seccion.links.map((enlace, key) => (
 							<DrawerItem
@@ -122,7 +129,9 @@ export default function CustomDrawerContent(props) {
 			{/* <DrawerItemList {...props} style={{ color: 'purple' }} />
 			
 			<View style={styles.hrElement}></View> */}
-			<View style={styles.sectionTitlesContainer}>
+			<View style={styles.configContainer}>
+				<Text style={styles.sectionTitle}>Configuración</Text>
+				<View style={styles.hrElement}></View>
 				<DrawerItem label={DarkModeDrawerItem} icon={() => <Ionicons name={theme.isDark ? 'ios-moon' : 'ios-sunny'} size={20} color={theme.primary} style={{ marginHorizontal: 0 }}></Ionicons>} onPress={() => {}} />
 			</View>
 		</DrawerContentScrollView>

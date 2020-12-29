@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text } from 'react-native';
+import { StyleSheet, Text, StatusBar } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
 // Navigation
@@ -27,9 +27,10 @@ export default function NavigationContainerComponent() {
 	});
 	return (
 		<NavigationContainer>
+			<StatusBar backgroundColor={theme.isDark ? theme.elevation.low : theme.primary} barStyle={theme.isDark ? 'light-content' : 'dark-content'} />
 			<Drawer.Navigator
 				// openByDefault={true} // Solo para probar el drawer
-				initialRouteName='Home'
+				initialRouteName='BasicCalculation'
 				// backBehavior='history'
 				drawerContent={(props) => <CustomDrawerContent {...props} />}
 				drawerContentOptions={{
@@ -39,19 +40,19 @@ export default function NavigationContainerComponent() {
 						fontFamily: fontsLoaded ? 'basic' : '', // Pretty experimental
 						// color: 'red',
 					},
-					activeTintColor: 'darkgreen',
+					activeTintColor: 'darkgreen', // Why it doesnt work?
 				}}
 				screenOptions={{
 					headerShown: true,
 					headerTitleAlign: 'center',
-					headerStyle: { backgroundColor: theme.isDark ? theme.elevation.medium : theme.primary, shadowColor: theme.isDark ? theme.elevation.high : theme.primary, elevation: 0 },
-					headerTitleStyle: { color: 'white', fontSize: 16 },
+					headerStyle: { backgroundColor: theme.isDark ? theme.elevation.low : theme.primary, shadowColor: theme.isDark ? theme.elevation.high : theme.primary, elevation: 0 },
+					headerTitleStyle: { color: 'white', fontSize: 20, fontFamily: fontsLoaded ? 'basic' : '' },
 					// headerRight: () => <Ionicons name='ios-log-out' color='white' size={30} style={{ marginHorizontal: 15 }}></Ionicons>,
 					// headerLeft: () => <Ionicons name='ios-menu' color='white' size={30} style={{ marginHorizontal: 15 }} onPress={() => props.navigation.openDrawer()}></Ionicons>,
 				}}
 			>
 				<Drawer.Screen name='Home' component={HomeScreen} options={{ title: 'Inicio' }} />
-				<Drawer.Screen name='BasicCalculation' component={BasicCalculationScreen} options={{ title: 'Calculo Basico' }} />
+				<Drawer.Screen name='BasicCalculation' component={BasicCalculationScreen} options={{ title: 'Cálculo Básico' }} />
 				<Drawer.Screen name='About' component={AboutScreen} options={{ title: 'Acerca de' }} />
 			</Drawer.Navigator>
 		</NavigationContainer>

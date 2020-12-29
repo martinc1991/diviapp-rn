@@ -15,3 +15,15 @@ export const getPayments = (peopleSpentData) => async (dispatch) => {
 		console.log(error.message);
 	}
 };
+// Reset current payment
+export const resetCurrentPayment = () => async (dispatch) => {
+	try {
+		// console.log('payments actions');
+		// console.log(peopleSpentData);
+		// const payments = await api.calculatePayments(peopleSpentData);
+		// console.log(payments.data);
+		dispatch({ type: 'RESET_PAYMENT' });
+	} catch (error) {
+		console.log(error.message);
+	}
+};

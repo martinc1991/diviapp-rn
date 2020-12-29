@@ -1,6 +1,7 @@
 import React from 'react';
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
-import { Dimensions } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, Dimensions } from 'react-native';
+
+// Basic Font
 import { useFonts, Basic_400Regular } from '@expo-google-fonts/basic';
 
 const windowWidth = Dimensions.get('window').width;

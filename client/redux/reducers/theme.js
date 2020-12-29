@@ -9,9 +9,9 @@ const reducer = (state = inicialState, action) => {
 	switch (action.type) {
 		case 'CHANGE_THEME':
 			console.log('theme reducer');
-			console.log(state);
-			console.log({ ...darkColors });
-			console.log({ ...lightColors });
+			// console.log(state);
+			// console.log({ ...darkColors });
+			// console.log({ ...lightColors });
 			if (state.isDark === false) return { ...darkColors };
 			if (state.isDark === true) return { ...lightColors };
 		default:

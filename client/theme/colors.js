@@ -6,9 +6,15 @@ export const lightColors = {
 	secondary: '#FFA726',
 	text: {
 		title: 'rgba(18,18,18, 0.90)',
-		caption: 'rgba(18,18,18, 0.75)',
-		body: 'rgba(18,18,18, 0.60)',
+		caption: 'rgba(18,18,18, 0.80)',
+		body: 'rgba(18,18,18, 0.75)',
 		disabled: 'rgba(18,18,18, 0.3)',
+		contrary: {
+			title: 'rgba(255,255,255, 1)',
+			caption: 'rgba(255,255,255, 0.90)',
+			body: 'rgba(255,255,255, 0.85)',
+			disabled: 'rgba(255,255,255, 0.38)',
+		},
 	},
 	elevation: {
 		high: 'rgba(255,255,255, 0.7)',
@@ -18,25 +24,33 @@ export const lightColors = {
 	success: 'limegreen',
 	error: 'firebrick',
 	caution: 'gold',
+	modalBackScreen: 'rgba(20,20,20,0.4)',
 };
 export const darkColors = {
 	isDark: true,
-	background: 'rgba(18,18,18,0.9)',
+	background: '#121212',
 	primary: '#4db6ab',
 	primaryVariant: 'green',
 	secondary: '#ffb84d',
 	text: {
-		title: 'rgba(255,255,255, 0.87)',
-		caption: 'rgba(255,255,255, 0.60)',
-		body: 'rgba(255,255,255, 0.50)',
+		title: 'rgba(255,255,255, 1)',
+		caption: 'rgba(255,255,255, 0.90)',
+		body: 'rgba(255,255,255, 0.85)',
 		disabled: 'rgba(255,255,255, 0.38)',
+		contrary: {
+			title: 'rgba(18,18,18, 0.90)',
+			caption: 'rgba(18,18,18, 0.80)',
+			body: 'rgba(18,18,18, 0.75)',
+			disabled: 'rgba(18,18,18, 0.3)',
+		},
 	},
 	elevation: {
-		high: 'rgba(18,18,18,0.8)',
-		medium: 'rgba(18,18,18,0.85)',
-		low: 'rgba(18,18,18,0.9)',
+		high: '#8a8a8a',
+		medium: '#505050',
+		low: '#323232',
 	},
 	success: 'limegreen',
 	error: 'firebrick',
 	caution: 'gold',
+	modalBackScreen: 'rgba(20,20,20,0.7)',
 };

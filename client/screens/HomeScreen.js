@@ -1,21 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import { Button, ScrollView, StyleSheet, Switch, Text, TextInput, View } from 'react-native';
-import { StatusBar } from 'expo-status-bar';
-import { useSelector, useDispatch } from 'react-redux';
-import { getUsers } from '../redux/actions/usersActions';
-import { changeTheme } from '../redux/actions/themeActions';
-import Clipboard from 'expo-clipboard';
-import { Appearance } from 'react-native';
+import React, { useState } from 'react';
+import { Appearance, ScrollView, StyleSheet, Text, View, Dimensions } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 import MainHomeButton from '../components/MainHomeButton';
+// Basic Font
+import { useFonts, Basic_400Regular } from '@expo-google-fonts/basic';
+
+// Dimensions
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 export default function Home({ navigation }) {
 	console.log('render');
 	console.log(Appearance.getColorScheme());
 	const dispatch = useDispatch();
-	const users = useSelector((state) => state.users.users);
-	const payments = useSelector((state) => state.payments.current);
+
 	const theme = useSelector((state) => state.theme);
 	const [isEnabled, setIsEnabled] = useState(false);
+	const [fontsLoaded, error] = useFonts({
+		basic: Basic_400Regular,
+	});
 	console.log(theme);
 
 	const styles = StyleSheet.create({
@@ -30,23 +33,25 @@ export default function Home({ navigation }) {
 			alignItems: 'center',
 		},
 		textTitle: {
+			fontFamily: fontsLoaded ? 'basic' : '',
 			fontSize: 18,
 			textAlign: 'center',
-			color: theme.text.title || 'gold',
+			color: theme.text.title || 'lightgrey',
 			fontWeight: 'bold',
 			marginBottom: 5,
 			maxWidth: '70%',
 		},
 		textBody: {
-			fontSize: 24,
-			color: theme.text.body || 'gold',
+			fontFamily: fontsLoaded ? 'basic' : '', // Pretty experimental
+			fontSize: 14,
+			color: theme.text.body || 'lightgrey',
 			fontWeight: 'bold',
 		},
 	});
 
 	return (
 		<View style={styles.container}>
-			<ScrollView>
+			<ScrollView contentContainerStyle={{ width: windowWidth }}>
 				<View style={styles.proximamenteContainer}>
 					<Text style={styles.textTitle}>Bienvenido, que te gustaría hacer hoy?</Text>
 					<MainHomeButton navigation={navigation} backgroundColor={theme.primary} buttonText={'Cálculo rápido'} linkTo='BasicCalculation' />

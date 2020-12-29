@@ -10,6 +10,8 @@ const reducer = (state = initialState, action) => {
 			var historyOfPayments = state.history.concat([action.payload]); // returns a new array (.push return de new array's length)
 			// console.log(historyOfPayments);
 			return { ...state, current: action.payload, history: historyOfPayments };
+		case 'RESET_PAYMENT':
+			return { ...state, current: [] };
 		default:
 			return state;
 	}
