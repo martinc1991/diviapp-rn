@@ -72,7 +72,7 @@ export default function CustomDrawerContent(props) {
 			marginTop: 55,
 		},
 		text: {
-			fontSize: 16,
+			fontSize: 18,
 			fontFamily: fontsLoaded ? 'basic' : '', // Pretty experimental
 			color: theme.text.title,
 		},
@@ -112,7 +112,7 @@ export default function CustomDrawerContent(props) {
 						{seccion.links.map((enlace, key) => (
 							<DrawerItem
 								key={key}
-								icon={() => <Ionicons name={enlace.icon} color={theme.primary} size={20} style={{ marginHorizontal: 0, justifyContent: 'center', alignItems: 'center' }}></Ionicons>}
+								icon={() => <Ionicons name={enlace.icon} color={theme.primary} size={22} style={{ marginHorizontal: 0, justifyContent: 'center', alignItems: 'center' }}></Ionicons>}
 								label={enlace.label}
 								labelStyle={styles.text}
 								onPress={() => {

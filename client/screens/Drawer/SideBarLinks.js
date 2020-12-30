@@ -11,17 +11,12 @@
 
 const SideBarLinks = [
 	{
-		sectionTitle: 'Calculos',
+		sectionTitle: 'Cálculos',
 		links: [
 			{
-				label: 'Calculo Basico',
-				icon: 'ios-home',
+				label: 'Cálculo Básico',
+				icon: 'git-network',
 				screen: 'BasicCalculation',
-			},
-			{
-				label: 'Modo Vacaciones',
-				icon: 'ios-home',
-				screen: '',
 			},
 		],
 	},
@@ -31,7 +26,7 @@ const SideBarLinks = [
 		links: [
 			{
 				label: 'Acerca',
-				icon: 'ios-home',
+				icon: 'information-circle-outline',
 				screen: 'About',
 			},
 		],

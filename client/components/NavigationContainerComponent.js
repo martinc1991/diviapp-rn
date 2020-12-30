@@ -30,7 +30,7 @@ export default function NavigationContainerComponent() {
 			<StatusBar backgroundColor={theme.isDark ? theme.elevation.low : theme.primary} barStyle={theme.isDark ? 'light-content' : 'dark-content'} />
 			<Drawer.Navigator
 				// openByDefault={true} // Solo para probar el drawer
-				initialRouteName='BasicCalculation'
+				initialRouteName='About'
 				// backBehavior='history'
 				drawerContent={(props) => <CustomDrawerContent {...props} />}
 				drawerContentOptions={{
@@ -53,7 +53,7 @@ export default function NavigationContainerComponent() {
 			>
 				<Drawer.Screen name='Home' component={HomeScreen} options={{ title: 'Inicio' }} />
 				<Drawer.Screen name='BasicCalculation' component={BasicCalculationScreen} options={{ title: 'Cálculo Básico' }} />
-				<Drawer.Screen name='About' component={AboutScreen} options={{ title: 'Acerca de' }} />
+				<Drawer.Screen name='About' component={AboutScreen} options={{ title: 'Acerca' }} />
 			</Drawer.Navigator>
 		</NavigationContainer>
 	);
