@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, StatusBar } from 'react-native';
+import { StyleSheet, Text, StatusBar, Platform } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
 // Navigation
@@ -19,6 +19,9 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
+// Platform
+const platform = Platform.OS;
+
 export default function NavigationContainerComponent() {
 	const theme = useSelector((state) => state.theme);
 	const [isEnabled, setIsEnabled] = useState(false);
@@ -37,7 +40,7 @@ export default function NavigationContainerComponent() {
 					labelStyle: {
 						// Styles for the elements on the drawer
 						fontSize: 16,
-						fontFamily: fontsLoaded ? 'basic' : '', // Pretty experimental
+						fontFamily: fontsLoaded ? 'basic' : platform === 'ios' ? 'Futura' : 'sans-serif',
 						// color: 'red',
 					},
 					activeTintColor: 'darkgreen', // Why it doesnt work?
@@ -48,7 +51,7 @@ export default function NavigationContainerComponent() {
 					headerStyle: { backgroundColor: theme.isDark ? theme.elevation.low : theme.primary, shadowColor: theme.isDark ? theme.elevation.high : theme.primary, elevation: 0 },
 					headerTitleStyle: { color: 'white', fontSize: 20, fontFamily: fontsLoaded ? 'basic' : '' },
 					// headerRight: () => <Ionicons name='ios-log-out' color='white' size={30} style={{ marginHorizontal: 15 }}></Ionicons>,
-					// headerLeft: () => <Ionicons name='ios-menu' color='white' size={30} style={{ marginHorizontal: 15 }} onPress={() => props.navigation.openDrawer()}></Ionicons>,
+					// headerLeft: () => <Ionicons name='ios-menu' color='white' size={30} style={{ marginHorizontal: 15 }} onPress={() => console.log('props')}></Ionicons>,
 				}}
 			>
 				<Drawer.Screen name='Home' component={HomeScreen} options={{ title: 'Inicio' }} />

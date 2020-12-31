@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Svg, { Defs, LinearGradient, Stop, Path, Circle } from 'react-native-svg';
 
-function StarryWindowImageComponent({ size = 1, planetColor = 'teal', backgroundColor = '#202020', pantsColor = '#202020', shirtColor = 'darkslategrey', hairColor = 'black', skinColor = 'pink', leafColor = 'teal' }) {
+function StarryWindowImageComponent({ size = 1, planetColor = 'teal', backgroundColor = '#202020', pantsColor = '#202020', shirtColor = 'darkslategrey', hairColor = 'black', skinColor = 'pink', leafColor = 'teal', windowColor = 'white' }) {
 	// Preventing the case where size == 20 (cant divide by 0)
 	var sizing = 1;
 	if (size >= 20) {
@@ -29,8 +29,8 @@ function StarryWindowImageComponent({ size = 1, planetColor = 'teal', background
 			<Circle cx={776.602} cy={182.717} r={17.362} opacity={0.2} />
 			<Path d='M730.686 437.807l32.97-38.599 32.97-38.598 18.613-21.79c1.03-1.205-.56-3.086-1.589-1.88l-32.97 38.598-32.971 38.599-18.613 21.789c-1.03 1.206.56 3.086 1.59 1.88z' transform='translate(-136.12 -78.746)' opacity={0.8} fill='url(#prefix__a)' />
 			<Path d='M727.686 267.807l32.97-38.599 32.97-38.598 18.613-21.79c1.03-1.205-.56-3.086-1.589-1.88l-32.97 38.598-32.971 38.599-18.613 21.789c-1.03 1.206.56 3.086 1.59 1.88z' transform='translate(-136.12 -78.746)' opacity={0.8} fill='url(#prefix__b)' />
-			<Path d='M684.853.145v444.226h-22.788V.414q7.194-.42 14.502-.414c2.776 0 5.541.041 8.286.145z' fill='#fff' />
-			<Path d='M877.528 100.476H475.605a251.945 251.945 0 0119.319-22.789H858.21a251.945 251.945 0 0119.318 22.789z' fill='#fff' />
+			<Path d='M684.853.145v444.226h-22.788V.414q7.194-.42 14.502-.414c2.776 0 5.541.041 8.286.145z' fill={windowColor} />
+			<Path d='M877.528 100.476H475.605a251.945 251.945 0 0119.319-22.789H858.21a251.945 251.945 0 0119.318 22.789z' fill={windowColor} />
 			<Circle cx={871.619} cy={292.415} r={5.215} fill='#e6e6e6' />
 			<Circle cx={534.619} cy={249.415} r={5.215} fill='#e6e6e6' />
 			<Path fill={leafColor} d='M772.631 272.745l-2.603 2.586-2.586-2.604-1.735 1.724 2.585 2.603-2.603 2.586 1.723 1.735 2.604-2.585 2.585 2.603 1.736-1.724-2.586-2.603 2.603-2.585-1.723-1.736zM484.631 324.745l-2.603 2.586-2.586-2.604-1.735 1.724 2.585 2.603-2.603 2.586 1.723 1.735 2.604-2.585 2.585 2.603 1.736-1.724-2.586-2.603 2.603-2.585-1.723-1.736zM743.631 354.745l-2.603 2.586-2.586-2.604-1.735 1.724 2.585 2.603-2.603 2.586 1.723 1.735 2.604-2.585 2.585 2.603 1.736-1.724-2.586-2.603 2.603-2.585-1.723-1.736zM567.631 124.745l-2.603 2.586-2.586-2.604-1.735 1.724 2.585 2.603-2.603 2.586 1.723 1.735 2.604-2.585 2.585 2.603 1.736-1.724-2.586-2.603 2.603-2.585-1.723-1.736zM0 705.803h606.096v2H0z' />

@@ -30,7 +30,7 @@ export default function TextButtonComponent({ text, textColor, backgroundColor, 
 			elevation: 3,
 		},
 		text: {
-			fontFamily: fontsLoaded ? 'basic' : '', // Pretty experimental
+			fontFamily: fontsLoaded ? 'basic' : platform === 'ios' ? 'Futura' : 'sans-serif',
 			color: textColor,
 			fontSize: 18,
 		},

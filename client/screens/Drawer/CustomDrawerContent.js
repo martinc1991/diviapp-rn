@@ -1,6 +1,6 @@
 import { DrawerContentScrollView, DrawerItem, DrawerItemList } from '@react-navigation/drawer';
 import React, { useState } from 'react';
-import { Appearance, StyleSheet, Switch, Text, View } from 'react-native';
+import { Appearance, StyleSheet, Switch, Text, View, Platform } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeTheme } from '../../redux/actions/themeActions';
 import { Dimensions } from 'react-native';
@@ -12,6 +12,9 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
+
+// Platform
+const platform = Platform.OS;
 
 export default function CustomDrawerContent(props) {
 	console.log('render');
@@ -58,12 +61,12 @@ export default function CustomDrawerContent(props) {
 		},
 		title: {
 			fontSize: 22,
-			fontFamily: fontsLoaded ? 'basic' : '', // Pretty experimental
+			fontFamily: fontsLoaded ? 'basic' : platform === 'ios' ? 'Futura' : 'sans-serif',
 			color: theme.text.title,
 		},
 		sectionTitle: {
 			fontSize: 20,
-			fontFamily: fontsLoaded ? 'basic' : '', // Pretty experimental
+			fontFamily: fontsLoaded ? 'basic' : platform === 'ios' ? 'Futura' : 'sans-serif',
 			color: theme.text.title || 'grey',
 			marginBottom: 5,
 		},
@@ -73,8 +76,8 @@ export default function CustomDrawerContent(props) {
 		},
 		text: {
 			fontSize: 18,
-			fontFamily: fontsLoaded ? 'basic' : '', // Pretty experimental
-			color: theme.text.title,
+			fontFamily: fontsLoaded ? 'basic' : platform === 'ios' ? 'Futura' : 'sans-serif',
+			color: theme.text.body,
 		},
 		hrElement: {
 			borderBottomWidth: 1,

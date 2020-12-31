@@ -36,7 +36,7 @@ export default function MainHomeButton({ navigation, backgroundColor, fontColor,
 		text: {
 			color: fontColor || 'white',
 			fontSize: 24,
-			fontFamily: fontsLoaded ? 'basic' : '', // Pretty experimental
+			fontFamily: fontsLoaded ? 'basic' : platform === 'ios' ? 'Futura' : 'sans-serif',
 			// backgroundColor: 'navy',
 			width: '60%',
 			lineHeight: 24,

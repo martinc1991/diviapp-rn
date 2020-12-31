@@ -33,7 +33,7 @@ export default function Home({ navigation }) {
 			alignItems: 'center',
 		},
 		textTitle: {
-			fontFamily: fontsLoaded ? 'basic' : '',
+			fontFamily: fontsLoaded ? 'basic' : platform === 'ios' ? 'Futura' : 'sans-serif',
 			fontSize: 18,
 			textAlign: 'center',
 			color: theme.text.title || 'lightgrey',
@@ -42,7 +42,7 @@ export default function Home({ navigation }) {
 			maxWidth: '70%',
 		},
 		textBody: {
-			fontFamily: fontsLoaded ? 'basic' : '', // Pretty experimental
+			fontFamily: fontsLoaded ? 'basic' : platform === 'ios' ? 'Futura' : 'sans-serif',
 			fontSize: 14,
 			color: theme.text.body || 'lightgrey',
 			fontWeight: 'bold',

@@ -160,7 +160,7 @@ export default function BasicDivision() {
 			marginBottom: 10,
 		},
 		textTitle: {
-			fontFamily: fontsLoaded ? 'basic' : '', // Pretty experimental
+			fontFamily: fontsLoaded ? 'basic' : platform === 'ios' ? 'Futura' : 'sans-serif',
 			fontSize: 20,
 			textAlign: 'center',
 			color: theme.text.title || 'lightgrey',
@@ -169,7 +169,7 @@ export default function BasicDivision() {
 			// maxWidth: '70%',
 		},
 		textBody: {
-			fontFamily: fontsLoaded ? 'basic' : '', // Pretty experimental
+			fontFamily: fontsLoaded ? 'basic' : platform === 'ios' ? 'Futura' : 'sans-serif',
 			fontSize: 14,
 			color: theme.text.body || 'lightgrey',
 			// fontWeight: 'bold',
@@ -190,14 +190,14 @@ export default function BasicDivision() {
 			marginBottom: 10,
 		},
 		textTitleResults: {
-			fontFamily: fontsLoaded ? 'basic' : '', // Pretty experimental
+			fontFamily: fontsLoaded ? 'basic' : platform === 'ios' ? 'Futura' : 'sans-serif',
 			fontSize: 16,
 			color: theme.text.caption || 'red',
 			textAlign: 'center',
 			marginBottom: 10,
 		},
 		textResults: {
-			fontFamily: fontsLoaded ? 'basic' : '', // Pretty experimental
+			fontFamily: fontsLoaded ? 'basic' : platform === 'ios' ? 'Futura' : 'sans-serif',
 			fontSize: 14,
 			color: theme.text.body || 'red',
 			textAlign: 'center',
@@ -354,7 +354,7 @@ export default function BasicDivision() {
 					<View style={styles.copyButtonContainer}>{payments.payments && payments.payments.length > 0 ? <TextButtonComponent text='Copiar' textColor={theme.text.contrary.title} backgroundColor={theme.primary} onPress={handleCopy} /> : <TextButtonComponent text='Calcular' textColor={theme.text.contrary.title} backgroundColor={theme.secondary} onPress={handleSubmit} />}</View>
 				</View>
 				<View style={styles.resetButtonContainer}>
-					<TextButtonComponent text='Resetear' textColor={theme.text.contrary.title} backgroundColor={theme.primary} onPress={() => setShowResetModal(true)} />
+					<TextButtonComponent text='Resetear' textColor={theme.text.contrary.title} backgroundColor={theme.primary} onPress={() => setShowResetModal(showResetModal)} />
 				</View>
 			</ScrollView>
 		</View>
