@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
-import { Appearance, ScrollView, StyleSheet, Text, View, Dimensions } from 'react-native';
+import { Appearance, ScrollView, StyleSheet, Text, View, Dimensions, Platform } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import MainHomeButton from '../components/MainHomeButton';
-// Basic Font
-import { useFonts, Basic_400Regular } from '@expo-google-fonts/basic';
+// Ubuntu Font
+import { useFonts, Ubuntu_300Light, Ubuntu_300Light_Italic, Ubuntu_400Regular, Ubuntu_400Regular_Italic, Ubuntu_500Medium, Ubuntu_500Medium_Italic, Ubuntu_700Bold, Ubuntu_700Bold_Italic } from '@expo-google-fonts/ubuntu';
+import FooterComponent from '../components/FooterComponent';
+
+// Platform
+const platform = Platform.OS;
 
 // Dimensions
 const windowWidth = Dimensions.get('window').width;
@@ -11,15 +15,22 @@ const windowHeight = Dimensions.get('window').height;
 
 export default function Home({ navigation }) {
 	console.log('render');
-	console.log(Appearance.getColorScheme());
+	// console.log(Appearance.getColorScheme());
 	const dispatch = useDispatch();
 
+	// Theme
 	const theme = useSelector((state) => state.theme);
+	// Font Size
+	const fontSize = useSelector((state) => state.fontSize);
+
 	const [isEnabled, setIsEnabled] = useState(false);
+	// Font
 	const [fontsLoaded, error] = useFonts({
-		basic: Basic_400Regular,
+		ubuntu: Ubuntu_400Regular,
+		ubuntuBold: Ubuntu_700Bold,
+		ubuntuItalic: Ubuntu_400Regular_Italic,
 	});
-	console.log(theme);
+	// console.log(theme);
 
 	const styles = StyleSheet.create({
 		container: {
@@ -33,19 +44,22 @@ export default function Home({ navigation }) {
 			alignItems: 'center',
 		},
 		textTitle: {
-			fontFamily: fontsLoaded ? 'basic' : platform === 'ios' ? 'Futura' : 'sans-serif',
-			fontSize: 18,
+			fontFamily: fontsLoaded ? 'ubuntuBold' : platform === 'ios' ? 'Futura' : 'sans-serif',
+			fontSize: fontSize.title,
 			textAlign: 'center',
 			color: theme.text.title || 'lightgrey',
-			fontWeight: 'bold',
+			// fontWeight: 'bold',
 			marginBottom: 5,
 			maxWidth: '70%',
 		},
-		textBody: {
-			fontFamily: fontsLoaded ? 'basic' : platform === 'ios' ? 'Futura' : 'sans-serif',
-			fontSize: 14,
-			color: theme.text.body || 'lightgrey',
-			fontWeight: 'bold',
+		textSubtitle: {
+			fontFamily: fontsLoaded ? 'ubuntuBold' : platform === 'ios' ? 'Futura' : 'sans-serif',
+			fontSize: fontSize.caption.regular,
+			textAlign: 'center',
+			color: theme.text.title || 'lightgrey',
+			// fontWeight: 'bold',
+			marginBottom: 5,
+			maxWidth: '90%',
 		},
 	});
 
@@ -53,12 +67,13 @@ export default function Home({ navigation }) {
 		<View style={styles.container}>
 			<ScrollView contentContainerStyle={{ width: windowWidth }}>
 				<View style={styles.proximamenteContainer}>
-					<Text style={styles.textTitle}>Bienvenido, que te gustaría hacer hoy?</Text>
+					<Text style={styles.textTitle}>Bienvenido 😁</Text>
+					<Text style={styles.textSubtitle}>Qué te gustaría hacer hoy?</Text>
 					<MainHomeButton navigation={navigation} backgroundColor={theme.primary} buttonText={'Cálculo rápido'} linkTo='BasicCalculation' />
 					<MainHomeButton navigation={navigation} backgroundColor={theme.secondary} buttonText={'Acerca de esta app'} linkTo='About' />
 				</View>
 				<View style={styles.proximamenteContainer}>
-					<Text style={styles.textTitle}>Proximamente</Text>
+					<Text style={styles.textTitle}>Próximamente</Text>
 					<MainHomeButton navigation={navigation} buttonText={'Cálculo personalizado'} linkTo='' disabled={true} />
 					<MainHomeButton navigation={navigation} buttonText={'Modo Vacaciones'} linkTo='' disabled={true} />
 					<MainHomeButton navigation={navigation} buttonText={'Contactos'} linkTo='' disabled={true} />
@@ -67,6 +82,7 @@ export default function Home({ navigation }) {
 					{/* <Button title='Acerca de' onPress={() => navigation.navigate('About')} /> */}
 					{/* <Button title='Cambiar Tema' onPress={() => dispatch(changeTheme)} /> */}
 				</View>
+				<FooterComponent />
 			</ScrollView>
 		</View>
 	);

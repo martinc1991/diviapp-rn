@@ -25,8 +25,8 @@ import EmailIconComponent from '../components/icons/EmailIconComponent';
 // Text input component
 import TextButtonComponent from '../components/TextButtonComponent';
 
-// Basic Font
-import { useFonts, Basic_400Regular } from '@expo-google-fonts/basic';
+// Ubuntu Font
+import { useFonts, Ubuntu_300Light, Ubuntu_300Light_Italic, Ubuntu_400Regular, Ubuntu_400Regular_Italic, Ubuntu_500Medium, Ubuntu_500Medium_Italic, Ubuntu_700Bold, Ubuntu_700Bold_Italic } from '@expo-google-fonts/ubuntu';
 // Ionicons
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -65,10 +65,15 @@ export default function AboutScreen() {
 	const dispatch = useDispatch();
 	// Redux States
 	const payments = useSelector((state) => state.payments.current);
+	// Theme
 	const theme = useSelector((state) => state.theme);
+	// Font Size
+	const fontSize = useSelector((state) => state.fontSize);
 	// Font
 	const [fontsLoaded, error] = useFonts({
-		basic: Basic_400Regular,
+		ubuntu: Ubuntu_400Regular,
+		ubuntuBold: Ubuntu_700Bold,
+		ubuntuItalic: Ubuntu_400Regular_Italic,
 	});
 
 	// Functions
@@ -87,11 +92,11 @@ export default function AboutScreen() {
 				// This verification is because mailcomposer cant be used on iOS simulator (it will return 'true' in bluestacks thoug you cant use the mail app there)
 				if (MailComposer.isAvailableAsync()) {
 					MailComposer.composeAsync({
-						recipients: ['martincatala14@gmail.com'],
-						ccRecipients: ['martincatala14@gmail.com'],
-						bccRecipients: ['martincatala14@gmail.com'],
-						subject: 'Mailing works?',
-						body: 'Does this work?',
+						ecipients: ['martincatala14@gmail.com'],
+						// ccRecipients: ['martincatala14@gmail.com'],
+						// bccRecipients: ['martincatala14@gmail.com'],
+						subject: 'Me contacto desde la DiviApp',
+						body: 'Hola, vi tu aplicación y me gustaría que estemos en contacto!',
 						isHtml: false,
 						// attachments: [],
 					});
@@ -149,8 +154,8 @@ export default function AboutScreen() {
 			alignItems: 'center',
 			justifyContent: 'center',
 			backgroundColor: theme.primary,
-			width: 60,
-			height: 60,
+			width: 50,
+			height: 50,
 			borderRadius: 50,
 		},
 		imageContainer: {
@@ -159,6 +164,18 @@ export default function AboutScreen() {
 			// maxWidth: 400,
 			// width: windowWidth * 0.85,
 			marginVertical: 20,
+			// borderColor: 'red',
+			// borderWidth: 1,
+		},
+		lastImageContainer: {
+			alignItems: 'center',
+			justifyContent: 'center',
+			// maxWidth: 400,
+			// width: windowWidth * 0.85,
+			marginVertical: 20,
+			left: '2%',
+			// borderColor: 'red',
+			// borderWidth: 1,
 		},
 		contactIconsContainer: {
 			flexDirection: 'row',
@@ -166,7 +183,7 @@ export default function AboutScreen() {
 			justifyContent: 'space-around',
 			maxWidth: windowWidth * 0.85,
 			width: 400,
-			marginVertical: 30,
+			marginVertical: 26,
 		},
 		footerContainer: {
 			borderColor: theme.text.disabled,
@@ -176,42 +193,69 @@ export default function AboutScreen() {
 			paddingVertical: 10,
 		},
 		textTitle: {
-			fontFamily: fontsLoaded ? 'basic' : platform === 'ios' ? 'Futura' : 'sans-serif',
-			fontSize: 20,
+			fontFamily: fontsLoaded ? 'ubuntuBold' : platform === 'ios' ? 'Futura' : 'sans-serif',
+			fontSize: fontSize.title,
 			textAlign: 'center',
 			color: theme.text.title || 'lightgrey',
 			marginBottom: 5,
 		},
 		textBody: {
-			fontFamily: fontsLoaded ? 'basic' : platform === 'ios' ? 'Futura' : 'sans-serif',
-			fontSize: 18,
+			fontFamily: fontsLoaded ? 'ubuntu' : platform === 'ios' ? 'Futura' : 'sans-serif',
+			fontSize: fontSize.body,
 			color: theme.text.body || 'lightgrey',
-			// fontWeight: 'bold',
-			lineHeight: 26,
-			textAlign: 'center',
-		},
-		textHighlight: {
-			fontFamily: fontsLoaded ? 'basic' : platform === 'ios' ? 'Futura' : 'sans-serif',
-			fontSize: 18,
-			color: theme.primary,
 			// fontWeight: 'bold',
 			lineHeight: 26,
 			textAlign: 'center',
 		},
 		textnumberList: {
-			fontFamily: fontsLoaded ? 'basic' : platform === 'ios' ? 'Futura' : 'sans-serif',
-			fontSize: 32,
+			fontFamily: fontsLoaded ? 'ubuntu' : platform === 'ios' ? 'Futura' : 'sans-serif',
+			fontSize: fontSize.title,
 			color: 'white',
+			textAlign: 'center',
 			// fontWeight: 'bold',
 			// lineHeight: 20,
 		},
 		textListBody: {
-			fontFamily: fontsLoaded ? 'basic' : platform === 'ios' ? 'Futura' : 'sans-serif',
-			fontSize: 18,
+			fontFamily: fontsLoaded ? 'ubuntu' : platform === 'ios' ? 'Futura' : 'sans-serif',
+			fontSize: fontSize.body,
 			color: theme.text.body || 'lightgrey',
 			// fontWeight: 'bold',
 			lineHeight: 26,
 			// textAlign: 'center',
+		},
+		textBodyItalic: {
+			fontFamily: fontsLoaded ? 'ubuntuItalic' : platform === 'ios' ? 'Futura' : 'sans-serif',
+			fontSize: fontSize.body,
+			color: theme.text.body,
+			// fontWeight: 'bold',
+			lineHeight: 26,
+			textAlign: 'center',
+		},
+		textHighlight: {
+			fontFamily: fontsLoaded ? 'ubuntuBold' : platform === 'ios' ? 'Futura' : 'sans-serif',
+			fontSize: fontSize.body,
+			color: theme.primary,
+			// fontWeight: 'bold',
+			lineHeight: 26,
+			textAlign: 'center',
+		},
+		textHyperlink: {
+			fontFamily: fontsLoaded ? 'ubuntuBold' : platform === 'ios' ? 'Futura' : 'sans-serif',
+			fontSize: fontSize.body,
+			color: theme.primary || 'teal',
+			// fontWeight: 'bold',
+			lineHeight: 26,
+			textAlign: 'center',
+			textDecorationLine: 'underline',
+		},
+		separator: {
+			alignSelf: 'center',
+			borderColor: theme.secondary,
+			borderTopWidth: 2,
+			maxWidth: windowWidth * 0.85,
+			width: 400,
+			// paddingVertical: 10,
+			marginVertical: 20,
 		},
 	});
 	// Styles
@@ -220,23 +264,40 @@ export default function AboutScreen() {
 		<View style={styles.container}>
 			<ScrollView contentContainerStyle={{ width: windowWidth, alignItems: 'center', padding: 15 }}>
 				<View style={styles.titleContainer}>
-					<Text style={styles.textTitle}>Acerca de Diviapp</Text>
+					<Text style={styles.textTitle}>Acerca de DiviApp</Text>
 				</View>
 
 				<View style={styles.bodyContainer}>
-					<Text style={styles.textBody}>Esta app nace como un proyecto de práctica para asentar los conocimientos adquiridos durante mi entrenamiento en HENRY (link). Allí aprendí un montón (UN MONTÓN) de cosas (digo ‘cosas’ para no ponerme específico). Sin embargo, al terminar sentí dos cosas: primero, que no todo lo aprendido estaba 100% afirmado en mi cabeza, y segundo que había compañeros que sabían muchas cosas que yo no. Entonces decidí crear una aplicación para asentar dichos conocimientos, pero con una restricción: no podía ser una aplicación que careciera de utilidad.</Text>
+					<Text style={styles.textBody}>
+						Esta app nace como un proyecto de práctica para asentar los conocimientos adquiridos durante mi entrenamiento en{' '}
+						<Text
+							style={styles.textHyperlink}
+							onPress={() => {
+								alert('link');
+								WebBrowser.openBrowserAsync('https://www.soyhenry.com/');
+							}}
+						>
+							HENRY
+						</Text>
+						, donde aprendí un montón. Sin embargo, al terminar sentí dos cosas: primero, que no todo lo aprendido estaba 100% afirmado en mi cabeza, y segundo, que había compañeros que sabían muchas cosas que yo no. Entonces decidí crear una aplicación para asentar/adquirir dichos conocimientos, pero con una restricción: <Text style={styles.textHighlight}>no podía ser una aplicación que careciera de utilidad.</Text>
+					</Text>
 				</View>
 				<View style={styles.imageContainer}>
-					<StarryWindowImageComponent size={15} planetColor={theme.secondary} shirtColor={theme.primary} leafColor={theme.primary} pantsColor={theme.text.disabled} windowColor={theme.background} backgroundColor={theme.elevation.medium} hairColor='#121212' />
+					<StarryWindowImageComponent size={16} planetColor={theme.secondary} shirtColor={theme.primary} leafColor={theme.primary} pantsColor={theme.text.disabled} windowColor={theme.background} backgroundColor={theme.elevation.medium} hairColor='#121212' />
 				</View>
 				<View style={styles.bodyContainer}>
-					<Text style={styles.textBody}>¿Cuál podría ser esa necesidad del común de las personas que no haga que sea una aplicación extremadamente compleja (y por la tanto costosa en tiempo)? Ahí se me ocurrió que una situación muy común entre amigos es la de “dividir gastos” después de un asado o un día en el río. Inmediatamente después, se me comenzaron a ocurrir distintas características adicionales que podría meterle para tacklear distintos escenarios (el Modo Vacaciones, por ejemplo). Ya no era simplemente una “aplicación de práctica”, se había convertido en un “pet project”.</Text>
+					<Text style={styles.textBody}>
+						¿Cuál podría ser esa necesidad del común de las personas que no haga que sea una aplicación extremadamente compleja (y por la tanto costosa en tiempo)? Ahí se me ocurrió que una situación muy común entre amigos es la de <Text style={styles.textHighlight}>dividir gastos después de un asado o un día en el río.</Text> Inmediatamente después, se me comenzaron a ocurrir distintas características adicionales que podría meterle para tacklear distintos escenarios (el Modo Vacaciones, por ejemplo). Ya no era simplemente una aplicación de práctica, se había convertido en un <Text style={styles.textHighlight}>pet project.</Text>
+					</Text>
 				</View>
 				<View style={styles.imageContainer}>
-					<VoidImageComponent size={15} bigCircleColor={theme.secondary} ballsColor={theme.secondary} pantsColor={theme.text.disabled} floorColor={theme.elevation.low} shirtColor={theme.primary} hairColor='#121212' shoesColor='#121212' />
+					<VoidImageComponent size={16} bigCircleColor={theme.secondary} ballsColor={theme.secondary} pantsColor={theme.text.disabled} floorColor={theme.elevation.low} shirtColor={theme.primary} hairColor='#121212' shoesColor='#121212' />
 				</View>
 				<View style={styles.bodyContainer}>
-					<Text style={styles.textBody}>“Vestime despacio que estoy apurado” me decía siempre mi viejo cuando venia a vestirme para irme al jardín (no sé de dónde la habrá sacado él, pero igual se la atribuyo). Y como tengo muchas ideas que implementar, decidí organizar el proyecto etapas:</Text>
+					<Text style={styles.textBody}>
+						“Vestime despacio que estoy apurado” me decía siempre mi papá cuando venia a vestirme para irme al jardín. Y como tengo muchas ideas que implementar, decidí
+						<Text style={styles.textHighlight}> organizar el proyecto etapas:</Text>
+					</Text>
 				</View>
 				{/* First List Element */}
 				<View style={styles.listElementContainer}>
@@ -244,7 +305,9 @@ export default function AboutScreen() {
 						<Text style={styles.textnumberList}>1</Text>
 					</View>
 					<View style={styles.listTextContainer}>
-						<Text style={styles.textListBody}>La primera (la actual) se llama “moonlanding” y consiste en setear las bases del proyecto para acelerar el crecimiento futuro (que sea escalable) además de brindar un mínimo de utilidad.</Text>
+						<Text style={styles.textListBody}>
+							La primera (la actual) se llama <Text style={styles.textHighlight}>“moonlanding”</Text> y consiste en setear las bases del proyecto para acelerar el crecimiento futuro (que sea escalable) además de brindar un mínimo de utilidad.
+						</Text>
 					</View>
 				</View>
 				{/* First List Element */}
@@ -258,7 +321,9 @@ export default function AboutScreen() {
 						<Text style={styles.textnumberList}>2</Text>
 					</View>
 					<View style={styles.listTextContainer}>
-						<Text style={styles.textListBody}>La segunda etapa se llama “moonbasing” y en ella se implementarán características más avanzadas para mayor versatilidad y flexibilidad. Si bien se sumarán nuevos modos de uso, el objetivo es hacerla mas amigable para el uso diario (acceso al historial de divisiones y personalizaciones persistentes, entre otras cosas).</Text>
+						<Text style={styles.textListBody}>
+							La segunda etapa se llama <Text style={styles.textHighlight}>“moonbasing”</Text> y en ella se implementarán características más avanzadas. Si bien se sumarán nuevos modos de uso, el objetivo es hacerla <Text style={styles.textBodyItalic}>más amigable para el usuario.</Text>
+						</Text>
 					</View>
 				</View>
 				{/* Second List Element */}
@@ -273,7 +338,9 @@ export default function AboutScreen() {
 					</View>
 					<View style={styles.listTextContainer}>
 						{/* <Text style={styles.textTitle}>Moongrowing</Text> */}
-						<Text style={styles.textListBody}>La tercera y última (por ahora) se llama “moongrowing” y, si bien está poco definida por ahora, aquí las características de las fases anteriores estarían completamente desarrolladas y nuevas características más innovadoras estarían en construcción (¿pagos integrados quizás?).</Text>
+						<Text style={styles.textListBody}>
+							La tercera y última (por ahora) se llama <Text style={styles.textHighlight}>“moongrowing”</Text> y, si bien aún está poco definida, aquí las funcionalidades de las fases anteriores estarán completas y nuevas características más innovadoras estarían en construcción.
+						</Text>
 					</View>
 				</View>
 				{/* Third List Element */}
@@ -281,11 +348,15 @@ export default function AboutScreen() {
 					<OuterSpaceImageComponent size={16} backgroundColor={theme.elevation.medium} fireColor={theme.primary} windowsColor={theme.primary} />
 				</View>
 				<View style={styles.bodyContainer}>
-					<Text style={styles.textBody}>Así como en la conquista del espacio, como en el desarrollo de aplicaciones, no hay certezas y todo puede suceder. Pero algo es seguro, ¡el camino será emocionante!</Text>
+					<Text style={styles.textBody}>
+						Así en la conquista del espacio como en el desarrollo de aplicaciones, no hay certezas y todo puede suceder. Pero algo es seguro,
+						<Text style={styles.textHighlight}> el camino será emocionante!</Text>
+					</Text>
 				</View>
+				<View style={styles.separator}></View>
 				<View style={styles.bodyContainer}>
 					<Text style={styles.textBody}>
-						Mi nombre es Martín Catalá, tengo {years} años, soy Desarrollador Web Full Stack (aunque me gusta más el front-end), amante de la buena música y, desde los 10 años, <Text style={styles.textHighlight}>maestro Pokémon</Text>.
+						Mi nombre es Martín Catalá, tengo {years} años, soy <Text style={styles.textHighlight}>Desarrollador Web Full Stack</Text> (aunque me gusta más el front-end), amante de la buena música 🎵 y entusiasta de todo lo relacionado al espacio exterior 🚀.
 					</Text>
 				</View>
 				<View style={styles.bodyContainer}>
@@ -303,15 +374,15 @@ export default function AboutScreen() {
 					</TouchableOpacity>
 				</View>
 				<View style={styles.bodyContainer}>
-					<Text style={styles.textBody}>(También podes buscarme en PokemonShowdown como bit90 😉)</Text>
+					<Text style={styles.textBody}>( También podes buscarme en PokemonShowdown como bit90 😉 )</Text>
 				</View>
 
 				{/* <LaunchingImageComponent size={18} /> */}
-				<View style={styles.imageContainer}>
-					<PlanetIconComponent size={17} planetColor={theme.secondary} carColor={theme.primary} circlesColor={theme.primary} starsColor={theme.primary} />
+				<View style={styles.lastImageContainer}>
+					<PlanetIconComponent size={15} planetColor={theme.secondary} carColor={theme.primary} circlesColor={theme.primary} starsColor={theme.primary} />
 				</View>
 				<View style={styles.footerContainer}>
-					<Text style={styles.textBody}>DiviApp - 2020</Text>
+					<Text style={styles.textBody}>DiviApp - 2021</Text>
 				</View>
 			</ScrollView>
 		</View>

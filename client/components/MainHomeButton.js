@@ -1,22 +1,29 @@
 import React from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, Dimensions } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, Dimensions, Platform } from 'react-native';
 
-// Basic Font
-import { useFonts, Basic_400Regular } from '@expo-google-fonts/basic';
+// Ubuntu Font
+import { useFonts, Ubuntu_300Light, Ubuntu_300Light_Italic, Ubuntu_400Regular, Ubuntu_400Regular_Italic, Ubuntu_500Medium, Ubuntu_500Medium_Italic, Ubuntu_700Bold, Ubuntu_700Bold_Italic } from '@expo-google-fonts/ubuntu';
+
+// Platform
+const platform = Platform.OS;
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 export default function MainHomeButton({ navigation, backgroundColor, fontColor, buttonText, linkTo, disabled = false }) {
+	// Font
 	const [fontsLoaded, error] = useFonts({
-		basic: Basic_400Regular,
+		ubuntu: Ubuntu_400Regular,
+		ubuntuBold: Ubuntu_700Bold,
+		ubuntuItalic: Ubuntu_400Regular_Italic,
 	});
 
 	const styles = StyleSheet.create({
 		container: {
 			backgroundColor: !disabled ? backgroundColor || 'orange' : 'grey',
 			width: 0.9 * windowWidth,
-			height: 120,
+			height: 0.17 * windowHeight,
+			maxHeight: 150,
 			borderRadius: 15,
 			padding: 20,
 			marginVertical: 5,
@@ -35,8 +42,8 @@ export default function MainHomeButton({ navigation, backgroundColor, fontColor,
 		},
 		text: {
 			color: fontColor || 'white',
-			fontSize: 24,
-			fontFamily: fontsLoaded ? 'basic' : platform === 'ios' ? 'Futura' : 'sans-serif',
+			fontSize: fontSize.title,
+			fontFamily: fontsLoaded ? 'ubuntu' : platform === 'ios' ? 'Futura' : 'sans-serif',
 			// backgroundColor: 'navy',
 			width: '60%',
 			lineHeight: 24,

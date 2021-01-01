@@ -1,8 +1,6 @@
-import { Appearance } from 'react-native';
-import { lightColors, darkColors } from '../../theme/colors.js';
+import fontSize from '../../theme/fontSize.js';
 
-const userPreferredTheme = Appearance.getColorScheme();
-const initialState = userPreferredTheme === 'dark' ? darkColors : lightColors;
+const initialState = fontSize;
 
 // ALWAYS RETURN A NEW OBJECT OR REACT WONT RE-RENDER
 const reducer = (state = initialState, action) => {

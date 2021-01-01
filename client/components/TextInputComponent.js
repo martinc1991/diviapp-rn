@@ -1,15 +1,20 @@
 import React from 'react';
 import { StyleSheet, TextInput } from 'react-native';
 import { useSelector } from 'react-redux';
-// Basic Font
-import { useFonts, Basic_400Regular } from '@expo-google-fonts/basic';
+// Ubuntu Font
+import { useFonts, Ubuntu_300Light, Ubuntu_300Light_Italic, Ubuntu_400Regular, Ubuntu_400Regular_Italic, Ubuntu_500Medium, Ubuntu_500Medium_Italic, Ubuntu_700Bold, Ubuntu_700Bold_Italic } from '@expo-google-fonts/ubuntu';
 
 // Text input Component
 const TextInputComponent = ({ value, onChangeCallback, name, i, keyboardType = 'default' }) => {
+	// Theme
 	const theme = useSelector((state) => state.theme);
+	// Font Size
+	const fontSize = useSelector((state) => state.fontSize);
 	// Font
 	const [fontsLoaded, error] = useFonts({
-		basic: Basic_400Regular,
+		ubuntu: Ubuntu_400Regular,
+		ubuntuBold: Ubuntu_700Bold,
+		ubuntuItalic: Ubuntu_400Regular_Italic,
 	});
 	// Styles
 	const styles = StyleSheet.create({

@@ -1,11 +1,22 @@
 import React from 'react';
-import { StyleSheet, Text, Dimensions, Pressable } from 'react-native';
-// Basic Font
-import { useFonts, Basic_400Regular } from '@expo-google-fonts/basic';
+import { StyleSheet, Text, Dimensions, Pressable, Platform } from 'react-native';
+// Ubuntu Font
+import { useFonts, Ubuntu_300Light, Ubuntu_300Light_Italic, Ubuntu_400Regular, Ubuntu_400Regular_Italic, Ubuntu_500Medium, Ubuntu_500Medium_Italic, Ubuntu_700Bold, Ubuntu_700Bold_Italic } from '@expo-google-fonts/ubuntu';
+import fontSize from '../theme/fontSize';
+
+// Dimensions
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
+
+// Platform
+const platform = Platform.OS;
 
 export default function TextButtonComponent({ text, textColor, backgroundColor, onPress, onLongPress }) {
+	// Font
 	const [fontsLoaded, error] = useFonts({
-		basic: Basic_400Regular,
+		ubuntu: Ubuntu_400Regular,
+		ubuntuBold: Ubuntu_700Bold,
+		ubuntuItalic: Ubuntu_400Regular_Italic,
 	});
 	// Styles
 	const styles = StyleSheet.create({
@@ -30,9 +41,9 @@ export default function TextButtonComponent({ text, textColor, backgroundColor, 
 			elevation: 3,
 		},
 		text: {
-			fontFamily: fontsLoaded ? 'basic' : platform === 'ios' ? 'Futura' : 'sans-serif',
+			fontFamily: fontsLoaded ? 'ubuntu' : platform === 'ios' ? 'Futura' : 'sans-serif',
 			color: textColor,
-			fontSize: 18,
+			fontSize: fontSize.body,
 		},
 	});
 	// Styles

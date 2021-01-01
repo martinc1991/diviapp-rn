@@ -4,9 +4,10 @@ import { Appearance, StyleSheet, Switch, Text, View, Platform } from 'react-nati
 import { useDispatch, useSelector } from 'react-redux';
 import { changeTheme } from '../../redux/actions/themeActions';
 import { Dimensions } from 'react-native';
-import { useFonts, Basic_400Regular } from '@expo-google-fonts/basic';
 import { NavigationContainer } from '@react-navigation/native';
 import SideBarLinks from './SideBarLinks';
+// Ubuntu Font
+import { useFonts, Ubuntu_300Light, Ubuntu_300Light_Italic, Ubuntu_400Regular, Ubuntu_400Regular_Italic, Ubuntu_500Medium, Ubuntu_500Medium_Italic, Ubuntu_700Bold, Ubuntu_700Bold_Italic } from '@expo-google-fonts/ubuntu';
 // Ionicons
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -18,16 +19,22 @@ const platform = Platform.OS;
 
 export default function CustomDrawerContent(props) {
 	console.log('render');
-	console.log(Appearance.getColorScheme());
+	// console.log(Appearance.getColorScheme());
 	const dispatch = useDispatch();
 
+	// Font
 	const [fontsLoaded, error] = useFonts({
-		basic: Basic_400Regular,
+		ubuntu: Ubuntu_400Regular,
+		ubuntuBold: Ubuntu_700Bold,
+		ubuntuItalic: Ubuntu_400Regular_Italic,
 	});
 
+	// Theme
 	const theme = useSelector((state) => state.theme);
+	// Font Size
+	const fontSize = useSelector((state) => state.fontSize);
 	const [isEnabled, setIsEnabled] = useState(false);
-	console.log(theme);
+	// console.log(theme);
 
 	const DarkModeDrawerItem = function () {
 		return (
@@ -60,13 +67,13 @@ export default function CustomDrawerContent(props) {
 			marginVertical: 10,
 		},
 		title: {
-			fontSize: 22,
-			fontFamily: fontsLoaded ? 'basic' : platform === 'ios' ? 'Futura' : 'sans-serif',
+			fontSize: fontSize.caption.regular,
+			fontFamily: fontsLoaded ? 'ubuntu' : platform === 'ios' ? 'Futura' : 'sans-serif',
 			color: theme.text.title,
 		},
 		sectionTitle: {
-			fontSize: 20,
-			fontFamily: fontsLoaded ? 'basic' : platform === 'ios' ? 'Futura' : 'sans-serif',
+			fontSize: fontSize.caption.regular,
+			fontFamily: fontsLoaded ? 'ubuntu' : platform === 'ios' ? 'Futura' : 'sans-serif',
 			color: theme.text.title || 'grey',
 			marginBottom: 5,
 		},
@@ -75,8 +82,8 @@ export default function CustomDrawerContent(props) {
 			marginTop: 55,
 		},
 		text: {
-			fontSize: 18,
-			fontFamily: fontsLoaded ? 'basic' : platform === 'ios' ? 'Futura' : 'sans-serif',
+			fontSize: fontSize.body,
+			fontFamily: fontsLoaded ? 'ubuntu' : platform === 'ios' ? 'Futura' : 'sans-serif',
 			color: theme.text.body,
 		},
 		hrElement: {
