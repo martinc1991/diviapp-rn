@@ -273,7 +273,7 @@ export default function AboutScreen() {
 						<Text
 							style={styles.textHyperlink}
 							onPress={() => {
-								alert('link');
+								// alert('link');
 								WebBrowser.openBrowserAsync('https://www.soyhenry.com/');
 							}}
 						>

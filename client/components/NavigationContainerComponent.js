@@ -41,22 +41,21 @@ export default function NavigationContainerComponent() {
 			<Drawer.Navigator
 				// openByDefault={true} // Solo para probar el drawer
 				initialRouteName='Home'
-				// backBehavior='history'
+				backBehavior='initialRoute'
 				drawerContent={(props) => <CustomDrawerContent {...props} />}
-				drawerContentOptions={{
-					labelStyle: {
-						// Styles for the elements on the drawer
-						fontSize: fontSize.body,
-						fontFamily: fontsLoaded ? 'ubuntu' : platform === 'ios' ? 'Futura' : 'sans-serif',
-						// color: 'red',
-					},
-					activeTintColor: 'darkgreen', // Why it doesnt work?
-				}}
 				screenOptions={{
 					headerShown: true,
 					headerTitleAlign: 'center',
-					headerStyle: { backgroundColor: theme.isDark ? theme.elevation.low : theme.primary, shadowColor: theme.isDark ? theme.elevation.high : theme.primary, elevation: 0 },
-					headerTitleStyle: { color: 'white', fontSize: fontSize.body, fontFamily: fontsLoaded ? 'ubuntu' : platform === 'ios' ? 'Futura' : 'sans-serif' },
+					headerStyle: {
+						backgroundColor: theme.isDark ? theme.elevation.low : theme.primary,
+						shadowColor: theme.isDark ? theme.elevation.high : theme.primary,
+						elevation: 0,
+					},
+					headerTitleStyle: {
+						color: 'white',
+						fontSize: fontSize.body,
+						fontFamily: fontsLoaded ? 'ubuntu' : platform === 'ios' ? 'Futura' : 'sans-serif',
+					},
 					// headerRight: () => <Ionicons name='ios-log-out' color='white' size={30} style={{ marginHorizontal: 15 }}></Ionicons>,
 					// headerLeft: () => <Ionicons name='ios-menu' color='white' size={30} style={{ marginHorizontal: 15 }} onPress={() => console.log('props')}></Ionicons>,
 				}}

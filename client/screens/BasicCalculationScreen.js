@@ -66,14 +66,12 @@ export default function BasicDivision() {
 	const [showFeedbackModal, setShowFeedbackModal] = useState(false);
 	// Local states
 
+	// Handle functions
 	const handleChange = function (name, value, i) {
 		var newPeopleForCalcs = [...peopleForCalcs];
-
 		newPeopleForCalcs[i][name] = value;
-
 		setPepopleForCalcs(newPeopleForCalcs);
 	};
-
 	// Add and remove people
 	const handleAddPeople = function () {
 		setPepopleForCalcs([...peopleForCalcs, { name: '', spent: '' }]);
@@ -84,7 +82,6 @@ export default function BasicDivision() {
 		newPeopleForCalcs.splice(i, 1);
 		setPepopleForCalcs(newPeopleForCalcs);
 	};
-
 	// Submit
 	const handleSubmit = function () {
 		console.table(peopleForCalcs);
@@ -117,6 +114,7 @@ export default function BasicDivision() {
 		dispatch(resetCurrentPayment());
 		setPepopleForCalcs(numImputFields);
 	};
+	// handle functions
 
 	// Styles
 	const styles = StyleSheet.create({
@@ -131,7 +129,7 @@ export default function BasicDivision() {
 			justifyContent: 'flex-start',
 			backgroundColor: theme.elevation.low,
 			width: 0.9 * windowWidth,
-			maxWidth: 520, // Test on iPad
+			maxWidth: 520,
 			margin: 15,
 			padding: 10,
 			borderWidth: 1,
@@ -141,6 +139,7 @@ export default function BasicDivision() {
 		singlePeopleContainer: {
 			flexDirection: 'row',
 			justifyContent: 'space-between',
+			alignItems: 'center',
 			marginVertical: 5,
 			width: '100%',
 			// borderWidth: 1,
@@ -151,8 +150,16 @@ export default function BasicDivision() {
 			flexDirection: 'row',
 			justifyContent: 'space-between',
 		},
-		inputContainer: {
+		nameInputContainer: {
 			flex: 8,
+			// backgroundColor: 'white',
+			marginVertical: 0,
+			width: '40%',
+			// borderColor: 'purple',
+			// borderWidth: 1,
+		},
+		spentInputContainer: {
+			flex: 4,
 			// backgroundColor: 'white',
 			marginVertical: 0,
 			width: '40%',
@@ -162,7 +169,6 @@ export default function BasicDivision() {
 		removePeopleButtonContainer: {
 			flex: 2,
 			marginVertical: 3,
-			paddingTop: 15,
 			flexDirection: 'row',
 			justifyContent: 'center',
 			alignItems: 'center',
@@ -230,10 +236,24 @@ export default function BasicDivision() {
 			color: theme.text.body || 'red',
 			textAlign: 'center',
 			marginBottom: 10,
+			marginTop: 5,
+		},
+		textBodyBold: {
+			fontFamily: fontsLoaded ? 'ubuntuBold' : platform === 'ios' ? 'Futura' : 'sans-serif',
+			fontSize: fontSize.body,
+			color: theme.primary || 'red',
+			textAlign: 'center',
+			marginBottom: 10,
 		},
 		copyButtonContainer: {
+			flexDirection: 'row',
+			justifyContent: 'space-evenly',
+			width: windowWidth * 0.8,
+			maxWidth: 300,
 			marginTop: 0,
 			marginBottom: 10,
+			// borderColor: 'red',
+			// borderWidth: 1,
 		},
 		resetButtonContainer: {
 			marginTop: 10,
@@ -287,10 +307,11 @@ export default function BasicDivision() {
 			justifyContent: 'flex-start',
 			alignItems: 'center',
 			padding: 10,
-			backgroundColor: theme.isDark ? 'rgba(255,255,255, 0.7)' : 'rgba(0,0,0, 0.6)',
+			backgroundColor: theme.isDark ? 'rgba(255,255,255, 0.9)' : 'rgba(0,0,0, 0.7)',
 			// minWidth: windowWidth * 0.6,
 			// maxHeight: windowHeight * 0.4,
 			borderRadius: 4,
+			bottom: 40,
 		},
 		feedbackText: {
 			fontFamily: fontsLoaded ? 'ubuntu' : platform === 'ios' ? 'Futura' : 'sans-serif',
@@ -305,18 +326,18 @@ export default function BasicDivision() {
 	return (
 		<View style={styles.container}>
 			<ScrollView contentContainerStyle={{ width: windowWidth, alignItems: 'center' }}>
+				{/* Paso 1 */}
 				<View style={styles.stepContainer}>
-					<Text style={styles.textTitle}>Paso 1: introduce los gastos</Text>
-
+					<Text style={styles.textTitle}>Paso 1: registrá los gastos</Text>
 					{peopleForCalcs.map((person, i, arr) => {
 						return (
 							<View key={i} style={styles.singlePeopleContainer}>
-								<View style={styles.inputContainer}>
+								<View style={styles.nameInputContainer}>
 									<Text style={styles.textBodyPeople}>Persona {i + 1}</Text>
 									{/* Nombres */}
 									<TextInputComponent value={peopleForCalcs[i].name} onChangeCallback={handleChange} name={'name'} i={i} />
 								</View>
-								<View style={styles.inputContainer}>
+								<View style={styles.spentInputContainer}>
 									<Text style={styles.textBodyPeople}>Gastos</Text>
 									{/* Montos */}
 									<TextInputComponent value={peopleForCalcs[i].spent} onChangeCallback={handleChange} name={'spent'} keyboardType='number-pad' i={i} />
@@ -325,7 +346,6 @@ export default function BasicDivision() {
 									<Pressable
 										style={styles.removePeopleButton}
 										onPress={() => {
-											// console.log(e);
 											console.log(i);
 											handleRemovePeople(i);
 										}}
@@ -337,42 +357,55 @@ export default function BasicDivision() {
 						);
 					})}
 					<View style={styles.addPeopleButtonContainer}>
-						{/* <Button title='Agregar persona' onPress={handleAddPeople} /> */}
 						<TextButtonComponent text='Agregar persona' textColor={theme.text.contrary.caption} backgroundColor={theme.primary} onPress={handleAddPeople} />
 					</View>
 				</View>
+				{/* Paso 1 */}
+
 				{/* Paso 2 */}
 				<View style={styles.stepContainer}>
-					<Text style={styles.textTitle}>Paso 2: calcula y obtén los resultados</Text>
+					<Text style={styles.textTitle}>Paso 2: calculá y obtené los resultados</Text>
 
-					{/* Resultados */}
+					{/* Results */}
 					<View style={styles.resultsContainer}>
 						{payments.payments && payments.payments.length > 0 ? <Text style={styles.textTitleResults}>Los siguientes pagos dejarán las cuentas equilibradas:</Text> : <Text style={styles.textTitleResults}>Los resultados aparecerán aquí</Text>}
-
 						<View>
 							{payments.payments && payments.payments.length > 0 ? (
 								payments.payments.map((payment, i) => {
 									return (
 										<Text style={styles.textResults} key={i}>
-											{payment.from} le debe a {payment.to}: ${payment.amount}
+											<Text style={styles.textBodyBold}>{payment.from}</Text> le debe a <Text style={styles.textBodyBold}>{payment.to}</Text>: ${payment.amount}
 										</Text>
 									);
 								})
 							) : (
-								<Text style={styles.textResults}>No hay resultados aun</Text>
+								<Text style={styles.textResults}>No hay resultados aún</Text>
 							)}
 						</View>
 					</View>
-					{/* <View style={styles.calculateButtonContainer}>
-						
-						<TextButtonComponent text='Calcular' textColor={theme.text.contrary.title} backgroundColor={theme.secondary} onPress={handleSubmit} />
-					</View> */}
-					<View style={styles.copyButtonContainer}>{payments.payments && payments.payments.length > 0 ? <TextButtonComponent text='Copiar' textColor={theme.text.contrary.title} backgroundColor={theme.secondary} onPress={handleCopy} /> : <TextButtonComponent text='Calcular' textColor={theme.text.contrary.caption} backgroundColor={theme.secondary} onPress={handleSubmit} />}</View>
+					{/* Results */}
+
+					{/* Calculate and Copy buttons */}
+					<View>
+						{payments.payments && payments.payments.length > 0 ? (
+							<View style={styles.copyButtonContainer}>
+								<TextButtonComponent text='Calcular' textColor={theme.text.contrary.caption} backgroundColor={theme.secondary} onPress={handleSubmit} />
+								<TextButtonComponent text='Copiar' textColor={theme.text.contrary.title} backgroundColor={theme.secondary} onPress={handleCopy} />
+							</View>
+						) : (
+							<View style={styles.copyButtonContainer}>
+								<TextButtonComponent text='Calcular' textColor={theme.text.contrary.caption} backgroundColor={theme.secondary} onPress={handleSubmit} />
+							</View>
+						)}
+					</View>
+					{/* Calculate and Copy buttons */}
 				</View>
+				{/* Paso 2 */}
+
 				{/* Reset Button */}
 				<View style={styles.resetButtonContainer}>
 					<TextButtonComponent
-						text='Resetear'
+						text='Empezar de nuevo'
 						textColor={theme.text.contrary.caption}
 						backgroundColor={theme.primary}
 						onLongPress={() => handleReset()}
@@ -382,7 +415,12 @@ export default function BasicDivision() {
 					/>
 				</View>
 				{/* Reset Button */}
+
+				{/* Footer */}
 				<FooterComponent />
+				{/* Footer */}
+
+				{/* MODALS */}
 				{/* <---------- CONFIRM RESET MODAL ----------> */}
 				<Modal visible={showResetModal} transparent={true}>
 					<View style={styles.modalBackScreen}>
@@ -391,8 +429,7 @@ export default function BasicDivision() {
 								<Text style={styles.textTitle}>Quieres resetear todos los campos?</Text>
 							</View>
 							<View style={styles.modalBodyContainer}>
-								<Text style={styles.textResults}>Se borraran todos los campos y los resultados del ultimo calculo que hayas realizado.</Text>
-								{/* <Text style={styles.textResults}>(Podras consultar los datos de dicho calculo en la seccion Historial (COMING SOON))</Text> */}
+								<Text style={styles.textResults}>Se borrarán todos los campos y los resultados del último cálculo que hayas realizado.</Text>
 							</View>
 							<View style={styles.modalButtonContainer}>
 								<TextButtonComponent text='Cancelar' textColor={theme.text.contrary.title} backgroundColor={theme.primary} onPress={() => setShowResetModal(false)} />

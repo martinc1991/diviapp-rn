@@ -5,8 +5,8 @@ export const lightColors = {
 	primaryVariant: '#80cbc3',
 	secondary: '#FFA726',
 	text: {
-		title: 'black',
-		caption: '#121212',
+		title: '#121212',
+		caption: '#212121',
 		body: '#262626',
 		disabled: '#9d9d9d',
 		contrary: {

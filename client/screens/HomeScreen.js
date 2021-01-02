@@ -14,16 +14,13 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 export default function Home({ navigation }) {
-	console.log('render');
+	// console.log('render');
 	// console.log(Appearance.getColorScheme());
 	const dispatch = useDispatch();
-
 	// Theme
 	const theme = useSelector((state) => state.theme);
 	// Font Size
 	const fontSize = useSelector((state) => state.fontSize);
-
-	const [isEnabled, setIsEnabled] = useState(false);
 	// Font
 	const [fontsLoaded, error] = useFonts({
 		ubuntu: Ubuntu_400Regular,
@@ -69,18 +66,14 @@ export default function Home({ navigation }) {
 				<View style={styles.proximamenteContainer}>
 					<Text style={styles.textTitle}>Bienvenido 😁</Text>
 					<Text style={styles.textSubtitle}>Qué te gustaría hacer hoy?</Text>
-					<MainHomeButton navigation={navigation} backgroundColor={theme.primary} buttonText={'Cálculo rápido'} linkTo='BasicCalculation' />
-					<MainHomeButton navigation={navigation} backgroundColor={theme.secondary} buttonText={'Acerca de esta app'} linkTo='About' />
+					<MainHomeButton navigation={navigation} backgroundColor={theme.primary} buttonText={'Cálculo rápido'} linkTo='BasicCalculation' iconName={'git-network'} />
+					<MainHomeButton navigation={navigation} backgroundColor={theme.secondary} buttonText={'Acerca de DiviApp'} linkTo='About' iconName={'planet'} />
 				</View>
 				<View style={styles.proximamenteContainer}>
 					<Text style={styles.textTitle}>Próximamente</Text>
-					<MainHomeButton navigation={navigation} buttonText={'Cálculo personalizado'} linkTo='' disabled={true} />
-					<MainHomeButton navigation={navigation} buttonText={'Modo Vacaciones'} linkTo='' disabled={true} />
-					<MainHomeButton navigation={navigation} buttonText={'Contactos'} linkTo='' disabled={true} />
-
-					{/* <Button title='Calculo Basico' onPress={() => navigation.navigate('BasicCalculation')} /> */}
-					{/* <Button title='Acerca de' onPress={() => navigation.navigate('About')} /> */}
-					{/* <Button title='Cambiar Tema' onPress={() => dispatch(changeTheme)} /> */}
+					<MainHomeButton navigation={navigation} buttonText={'Cálculo personalizado'} linkTo='' disabled={true} iconName={'options'} />
+					<MainHomeButton navigation={navigation} buttonText={'Modo Vacaciones'} linkTo='' disabled={true} iconName={'map'} />
+					<MainHomeButton navigation={navigation} buttonText={'Contactos'} linkTo='' disabled={true} iconName={'people'} />
 				</View>
 				<FooterComponent />
 			</ScrollView>

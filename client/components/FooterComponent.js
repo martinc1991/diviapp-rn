@@ -1,34 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { Button, StyleSheet, Text, Platform, View, ScrollView, Dimensions, Pressable, Modal, TouchableOpacity } from 'react-native';
-import { StatusBar } from 'expo-status-bar';
-import { useSelector, useDispatch } from 'react-redux';
-import { getUsers } from '../redux/actions/usersActions';
-import { getPayments, resetCurrentPayment } from '../redux/actions/paymentActions';
-import Clipboard from 'expo-clipboard';
-// Expo WebBrowser (manage links to the web)
-import * as WebBrowser from 'expo-web-browser';
+import React from 'react';
+import { Dimensions, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useSelector } from 'react-redux';
+// Ubuntu Font
+import { Ubuntu_400Regular, Ubuntu_400Regular_Italic, Ubuntu_700Bold, useFonts } from '@expo-google-fonts/ubuntu';
 // Expo MailComposer (manage mailing)
 import * as MailComposer from 'expo-mail-composer';
-// Image Components
-import PlanetIconComponent from '../components/icons/PlanetIconComponent';
-import LaunchingImageComponent from '../components/icons/LaunchingImageComponent';
-import MakerLaunchImageComponent from '../components/icons/MakerLaunchImageComponent';
-import OuterSpaceImageComponent from '../components/icons/OuterSpaceImageComponent';
-import StarryWindowImageComponent from '../components/icons/StarryWindowImageComponent';
-import ToTheMoonImageComponent from '../components/icons/ToTheMoonImageComponent';
-import VoidImageComponent from '../components/icons/VoidImageComponent';
+// Expo WebBrowser (manage links to the web)
+import * as WebBrowser from 'expo-web-browser';
 // Icon Components
 import LinkedinIconComponent from '../components/icons/LinkedinIconComponent';
-import GitHubIconComponent from '../components/icons/GitHubIconComponent';
 import EmailIconComponent from '../components/icons/EmailIconComponent';
-
-// Text input component
-import TextButtonComponent from '../components/TextButtonComponent';
-
-// Ubuntu Font
-import { useFonts, Ubuntu_300Light, Ubuntu_300Light_Italic, Ubuntu_400Regular, Ubuntu_400Regular_Italic, Ubuntu_500Medium, Ubuntu_500Medium_Italic, Ubuntu_700Bold, Ubuntu_700Bold_Italic } from '@expo-google-fonts/ubuntu';
-// Ionicons
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import GitHubIconComponent from '../components/icons/GitHubIconComponent';
 
 // Platform
 const platform = Platform.OS;

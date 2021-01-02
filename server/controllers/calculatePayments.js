@@ -1,6 +1,14 @@
-import dayjs from 'dayjs'; // Esta funcion recibe un array de la forma
 import { calculate_basicPayment } from './functions/payments.js';
+import dayjs from 'dayjs';
+import updateLocale from 'dayjs/plugin/updateLocale.js';
+dayjs.extend(updateLocale);
 
+// Object that updates weekday names
+dayjs.updateLocale('en', {
+	weekdays: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+});
+
+// Esta funcion recibe un array de la forma
 // INPUT
 // arrayPersonasPago= [
 // 	{name: String, spent: Number},

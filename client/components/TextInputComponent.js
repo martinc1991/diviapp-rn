@@ -18,23 +18,12 @@ const TextInputComponent = ({ value, onChangeCallback, name, i, keyboardType = '
 	});
 	// Styles
 	const styles = StyleSheet.create({
-		container: {
-			flex: 1,
-			backgroundColor: 'lightblue',
-			alignItems: 'center',
-			justifyContent: 'space-evenly',
-		},
-		peopleInputContainer: {
-			flexDirection: 'row',
-			justifyContent: 'space-between',
-			borderWidth: 2,
-			borderColor: 'red',
-		},
 		inputContainer: {
 			backgroundColor: theme.elevation.medium || 'white',
 			borderColor: 'grey',
 			borderWidth: 1,
 			marginVertical: 2,
+			minHeight: fontSize.body + 10,
 			width: '90%',
 			paddingHorizontal: 10,
 			borderRadius: 3,

@@ -125,6 +125,7 @@ export default function CustomDrawerContent(props) {
 								icon={() => <Ionicons name={enlace.icon} color={theme.primary} size={22} style={{ marginHorizontal: 0, justifyContent: 'center', alignItems: 'center' }}></Ionicons>}
 								label={enlace.label}
 								labelStyle={styles.text}
+								activeBackgroundColor={'red'}
 								onPress={() => {
 									// console.log(props);
 									props.navigation.navigate(enlace.screen);
