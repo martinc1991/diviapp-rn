@@ -91,7 +91,7 @@ By now, you have the project installed in your PC and the cluster properly confi
 
 ### Third (and last) Step
 
-To (finally) ron the project you should run `npm start` both from the _client_ folder and the _server_ folder.
+To (finally) run the project you have to run `npm start` both from the _client_ folder and the _server_ folder.
 
 ##### Client folder
 

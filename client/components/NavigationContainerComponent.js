@@ -58,8 +58,7 @@ export default function NavigationContainerComponent() {
 					},
 					// headerRight: () => <Ionicons name='ios-log-out' color='white' size={30} style={{ marginHorizontal: 15 }}></Ionicons>,
 					// headerLeft: () => <Ionicons name='ios-menu' color='white' size={30} style={{ marginHorizontal: 15 }} onPress={() => console.log('props')}></Ionicons>,
-				}}
-			>
+				}}>
 				<Drawer.Screen name='Home' component={HomeScreen} options={{ title: 'Inicio' }} />
 				<Drawer.Screen name='BasicCalculation' component={BasicCalculationScreen} options={{ title: 'Cálculo Básico' }} />
 				<Drawer.Screen name='About' component={AboutScreen} options={{ title: 'Acerca' }} />

@@ -50,7 +50,7 @@ const years = dateDiffInYears(myDob, today);
 // My age calculation
 
 export default function AboutScreen() {
-	console.log('render');
+	// console.log('render');
 	const dispatch = useDispatch();
 	// Redux States
 	const payments = useSelector((state) => state.payments.current);
@@ -264,8 +264,7 @@ export default function AboutScreen() {
 							onPress={() => {
 								// alert('link');
 								WebBrowser.openBrowserAsync('https://www.soyhenry.com/');
-							}}
-						>
+							}}>
 							HENRY
 						</Text>
 						, donde aprendí un montón. Sin embargo, al terminar sentí dos cosas: primero, que no todo lo aprendido estaba 100% afirmado en mi cabeza, y segundo, que había compañeros que sabían muchas cosas que yo no. Entonces decidí crear una aplicación para asentar/adquirir dichos conocimientos, pero con una restricción: <Text style={styles.textHighlight}>no podía ser una aplicación que careciera de utilidad.</Text>

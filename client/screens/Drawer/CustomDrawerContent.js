@@ -18,7 +18,7 @@ const windowHeight = Dimensions.get('window').height;
 const platform = Platform.OS;
 
 export default function CustomDrawerContent(props) {
-	console.log('render');
+	// console.log('render');
 	// console.log(Appearance.getColorScheme());
 	const dispatch = useDispatch();
 
@@ -49,8 +49,7 @@ export default function CustomDrawerContent(props) {
 						setIsEnabled((previousState) => !previousState);
 						dispatch(changeTheme);
 					}}
-					value={theme.isDark}
-				></Switch>
+					value={theme.isDark}></Switch>
 			</View>
 		);
 	};

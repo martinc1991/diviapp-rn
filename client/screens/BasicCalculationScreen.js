@@ -41,7 +41,7 @@ const paymentsObjectToResultsString = function (paymentObject) {
 };
 
 export default function BasicDivision() {
-	console.log('render');
+	// console.log('render');
 	const dispatch = useDispatch();
 	// Redux States
 	const payments = useSelector((state) => state.payments.current);
@@ -348,8 +348,7 @@ export default function BasicDivision() {
 										onPress={() => {
 											console.log(i);
 											handleRemovePeople(i);
-										}}
-									>
+										}}>
 										<Ionicons name='ios-close' color='white' size={16} style={{ marginHorizontal: 0, justifyContent: 'center', alignItems: 'center' }}></Ionicons>
 									</Pressable>
 								</View>
