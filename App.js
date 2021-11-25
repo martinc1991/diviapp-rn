@@ -5,9 +5,9 @@ import DrawerNavigator from './src/navigation/DrawerNavigator';
 import { store } from './src/redux/store/index.js';
 
 export default function App() {
-	return (
-		<Provider store={store}>
-			<DrawerNavigator />
-		</Provider>
-	);
+  return (
+    <Provider store={store}>
+      <DrawerNavigator />
+    </Provider>
+  );
 }

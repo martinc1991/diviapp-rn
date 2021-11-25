@@ -1,14 +1,14 @@
 import { Ubuntu_400Regular, Ubuntu_400Regular_Italic, Ubuntu_700Bold, useFonts } from '@expo-google-fonts/ubuntu';
-import dayjs from 'dayjs';
 import Clipboard from 'expo-clipboard';
 import React, { useState } from 'react';
-import { Dimensions, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import { Dimensions, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import FooterComponent from '../components/organisms/FooterComponent';
-import TextButtonComponent from '../components/atoms/TextButtonComponent';
-import TextInputComponent from '../components/atoms/TextInputComponent';
+import TextButton from '../components/atoms/TextButton';
+import PeopleInputRow from '../components/molecules/PeopleInputRow';
+import CustomModal from '../components/organisms/CustomModal';
+import SnackBar from '../components/organisms/SnackBar';
 import { getPayments, resetCurrentPayment } from '../redux/actions/paymentActions';
+import { paymentsObjectToString } from '../utils/paymentsObjectToString';
 
 // Dimensions
 const windowWidth = Dimensions.get('window').width;
@@ -17,436 +17,299 @@ const windowHeight = Dimensions.get('window').height;
 // Platform
 const platform = Platform.OS;
 
-// Auxiliar function to make the results into a string
-const paymentsObjectToResultsString = function (paymentObject) {
-	if (!paymentObject) return false;
-	var date = paymentObject.date || dayjs().format('DD/MM/YY');
-	var stringResult =
-		'Para equilibrar gastos, hacer los siguientes pagos:' +
-		'\n' + // En este caso va un solo salto porque el .map devuelve elementos con saltos adelante
-		`${paymentObject.map((payment, i) => {
-			return '\n' + `${payment.from} -----> $ ${payment.amount} -----> ${payment.to}`;
-		})}` +
-		'\n\n' +
-		`Fecha: ${date}` +
-		'\n\n' +
-		'Facilitado por DiviApp';
-	return stringResult;
-};
+export default function BasicCalculationScreen() {
+  const dispatch = useDispatch();
+  // Redux States
+  const payments = useSelector((state) => {
+    return state.payments.current;
+  });
+  // Theme
+  const theme = useSelector((state) => {
+    return state.theme;
+  });
+  // Font Size
+  const fontSize = useSelector((state) => {
+    return state.fontSize;
+  });
+  // Font
+  const [fontsLoaded] = useFonts({
+    ubuntu: Ubuntu_400Regular,
+    ubuntuBold: Ubuntu_700Bold,
+    ubuntuItalic: Ubuntu_400Regular_Italic,
+  });
 
-export default function BasicDivision() {
-	const dispatch = useDispatch();
-	// Redux States
-	const payments = useSelector((state) => {
-		return state.payments.current;
-	});
-	// Theme
-	const theme = useSelector((state) => state.theme);
-	// Font Size
-	const fontSize = useSelector((state) => state.fontSize);
-	// Font
-	const [fontsLoaded, error] = useFonts({
-		ubuntu: Ubuntu_400Regular,
-		ubuntuBold: Ubuntu_700Bold,
-		ubuntuItalic: Ubuntu_400Regular_Italic,
-	});
+  // Local states
+  const [peopleForCalcs, setPepopleForCalcs] = useState([
+    { name: '', spent: '' },
+    { name: '', spent: '' },
+    { name: '', spent: '' },
+  ]);
+  const [showResetModal, setShowResetModal] = useState(false);
+  const [showFeedbackModal, setShowFeedbackModal] = useState(false);
+  // Local states
 
-	// Local states
-	const [peopleForCalcs, setPepopleForCalcs] = useState([
-		{ name: '', spent: '' },
-		{ name: '', spent: '' },
-		{ name: '', spent: '' },
-	]);
-	const [showResetModal, setShowResetModal] = useState(false);
-	const [showFeedbackModal, setShowFeedbackModal] = useState(false);
-	// Local states
+  // Handle functions
+  const handleChange = function (name, value, i) {
+    const newPeopleForCalcs = [...peopleForCalcs];
+    newPeopleForCalcs[i][name] = value;
+    setPepopleForCalcs(newPeopleForCalcs);
+  };
+  // Add and remove people
+  const handleAddPeople = function () {
+    setPepopleForCalcs([...peopleForCalcs, { name: '', spent: '' }]);
+  };
+  const handleRemove = function (i) {
+    console.log('remove single people');
+    const newPeopleForCalcs = [...peopleForCalcs];
+    newPeopleForCalcs.splice(i, 1);
+    setPepopleForCalcs(newPeopleForCalcs);
+  };
 
-	// Handle functions
-	const handleChange = function (name, value, i) {
-		var newPeopleForCalcs = [...peopleForCalcs];
-		newPeopleForCalcs[i][name] = value;
-		setPepopleForCalcs(newPeopleForCalcs);
-	};
-	// Add and remove people
-	const handleAddPeople = function () {
-		setPepopleForCalcs([...peopleForCalcs, { name: '', spent: '' }]);
-	};
-	const handleRemovePeople = function (i) {
-		console.log('remove single people');
-		var newPeopleForCalcs = [...peopleForCalcs];
-		newPeopleForCalcs.splice(i, 1);
-		setPepopleForCalcs(newPeopleForCalcs);
-	};
+  // Submit
+  const handleSubmit = function () {
+    const filteredPeopleForCalcs = peopleForCalcs.filter((people) => {
+      if (people.spent.trim() === '' || people.name.trim() === '') {
+        return false;
+      }
+      return true;
+    });
 
-	// Submit
-	const handleSubmit = function () {
-		let filteredPeopleForCalcs = peopleForCalcs.filter((people) => {
-			if (people.spent == '') return false;
-			if (people.name == '') return false;
-			return true;
-		});
+    dispatch(getPayments(filteredPeopleForCalcs));
+  };
 
-		dispatch(getPayments(filteredPeopleForCalcs));
-	};
+  // Copy to clipboard
+  const handleCopy = function () {
+    const textForClipboard = paymentsObjectToString(payments);
+    Clipboard.setString(textForClipboard);
+    setShowFeedbackModal(true);
+    setTimeout(() => {
+      setShowFeedbackModal(false);
+    }, 2000);
+  };
 
-	// Copy to clipboard
-	const handleCopy = function () {
-		var textForClipboard = paymentsObjectToResultsString(payments);
-		Clipboard.setString(textForClipboard);
-		setShowFeedbackModal(true);
-		setTimeout(() => {
-			setShowFeedbackModal(false);
-		}, 2000);
-	};
+  // Reset inputs and results
+  const handleReset = function () {
+    const numImputFields = [];
+    for (let i = 0; i < peopleForCalcs.length; i++) {
+      numImputFields.push({ name: '', spent: '' });
+    }
+    dispatch(resetCurrentPayment());
+    setPepopleForCalcs(numImputFields);
+  };
 
-	// Reset inputs and results
-	const handleReset = function () {
-		var numImputFields = [];
-		for (let i = 0; i < peopleForCalcs.length; i++) {
-			numImputFields.push({ name: '', spent: '' });
-		}
-		dispatch(resetCurrentPayment());
-		setPepopleForCalcs(numImputFields);
-	};
+  // Styles
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: theme.background,
+      alignItems: 'center',
+      justifyContent: 'flex-start',
+    },
+    stepContainer: {
+      alignItems: 'center',
+      justifyContent: 'flex-start',
+      backgroundColor: theme.elevation.low,
+      width: 0.9 * windowWidth,
+      maxWidth: 520,
+      margin: 15,
+      padding: 10,
+      borderWidth: 1,
+      borderColor: theme.text.body,
+      borderRadius: 5,
+    },
+    addPeopleButtonContainer: {
+      marginTop: 20,
+      marginBottom: 10,
+    },
+    textTitle: {
+      fontFamily: fontsLoaded ? 'ubuntu' : platform === 'ios' ? 'Futura' : 'sans-serif',
+      fontSize: fontSize.caption.regular,
+      textAlign: 'center',
+      color: theme.text.title || 'lightgrey',
+      marginBottom: 5,
+    },
+    resultsContainer: {
+      backgroundColor: theme.elevation.medium,
+      alignItems: 'center',
+      justifyContent: 'flex-start',
+      width: '90%',
+      margin: 15,
+      padding: 10,
+      borderWidth: 1,
+      borderColor: theme.isDark ? 'lightgrey' : '#121212',
+      borderRadius: 5,
+    },
+    textTitleResults: {
+      fontFamily: fontsLoaded ? 'ubuntu' : platform === 'ios' ? 'Futura' : 'sans-serif',
+      fontSize: fontSize.caption.small,
+      color: theme.text.caption || 'red',
+      textAlign: 'center',
+      marginBottom: 10,
+    },
+    textResults: {
+      fontFamily: fontsLoaded ? 'ubuntu' : platform === 'ios' ? 'Futura' : 'sans-serif',
+      fontSize: fontSize.body,
+      color: theme.text.body || 'red',
+      textAlign: 'center',
+      marginBottom: 10,
+      marginTop: 5,
+    },
+    textBodyBold: {
+      fontFamily: fontsLoaded ? 'ubuntuBold' : platform === 'ios' ? 'Futura' : 'sans-serif',
+      fontSize: fontSize.body,
+      color: theme.primary || 'red',
+      textAlign: 'center',
+      marginBottom: 10,
+    },
+    copyButtonContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-evenly',
+      width: windowWidth * 0.8,
+      maxWidth: 300,
+      marginTop: 0,
+      marginBottom: 10,
+    },
+    resetButtonContainer: {
+      marginTop: 10,
+      marginBottom: 30,
+    },
+    modalBackScreen: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginTop: 22,
+      backgroundColor: theme.modalBackScreen,
+    },
+    modalContainer: {
+      justifyContent: 'flex-start',
+      alignItems: 'center',
+      padding: 10,
+      backgroundColor: theme.elevation.low,
+      maxWidth: 400,
+      width: windowWidth * 0.85,
+      minHeight: windowHeight * 0.2,
+      borderRadius: 4,
+    },
+    modalTitleContainer: {
+      marginVertical: 10,
+    },
+    modalBodyContainer: {
+      maxWidth: 380,
+      width: windowWidth * 0.75,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    modalButtonContainer: {
+      maxWidth: 400,
+      width: windowWidth * 0.85,
+      flexDirection: 'row',
+      marginVertical: 10,
+      justifyContent: 'space-evenly',
+    },
+  });
 
-	// Styles
-	const styles = StyleSheet.create({
-		container: {
-			flex: 1,
-			backgroundColor: theme.background,
-			alignItems: 'center',
-			justifyContent: 'flex-start',
-		},
-		stepContainer: {
-			alignItems: 'center',
-			justifyContent: 'flex-start',
-			backgroundColor: theme.elevation.low,
-			width: 0.9 * windowWidth,
-			maxWidth: 520,
-			margin: 15,
-			padding: 10,
-			borderWidth: 1,
-			borderColor: theme.text.body,
-			borderRadius: 5,
-		},
-		singlePeopleContainer: {
-			flexDirection: 'row',
-			justifyContent: 'space-between',
-			alignItems: 'center',
-			marginVertical: 5,
-			width: '100%',
-			// borderWidth: 1,
-			// borderColor: 'red',
-		},
-		peopleInputContainer: {
-			marginVertical: 3,
-			flexDirection: 'row',
-			justifyContent: 'space-between',
-		},
-		nameInputContainer: {
-			flex: 8,
-			// backgroundColor: 'white',
-			marginVertical: 0,
-			width: '40%',
-			// borderColor: 'purple',
-			// borderWidth: 1,
-		},
-		spentInputContainer: {
-			flex: 4,
-			// backgroundColor: 'white',
-			marginVertical: 0,
-			width: '40%',
-			// borderColor: 'purple',
-			// borderWidth: 1,
-		},
-		removePeopleButtonContainer: {
-			flex: 2,
-			marginVertical: 3,
-			flexDirection: 'row',
-			justifyContent: 'center',
-			alignItems: 'center',
-			// borderWidth: 1,
-			// borderColor: 'red',
-		},
-		removePeopleButton: {
-			backgroundColor: theme.primary,
-			width: 25,
-			height: 25,
-			justifyContent: 'center',
-			alignItems: 'center',
-			borderRadius: 2,
-		},
-		addPeopleButtonContainer: {
-			marginTop: 20,
-			marginBottom: 10,
-		},
-		textTitle: {
-			fontFamily: fontsLoaded ? 'ubuntu' : platform === 'ios' ? 'Futura' : 'sans-serif',
-			fontSize: fontSize.caption.regular,
-			textAlign: 'center',
-			color: theme.text.title || 'lightgrey',
-			// fontWeight: 'bold',
-			marginBottom: 5,
-			// maxWidth: '70%',
-		},
-		textBody: {
-			fontFamily: fontsLoaded ? 'ubuntu' : platform === 'ios' ? 'Futura' : 'sans-serif',
-			fontSize: fontSize.body,
-			color: theme.text.body || 'lightgrey',
-			// fontWeight: 'bold',
-		},
-		textBodyPeople: {
-			fontFamily: fontsLoaded ? 'ubuntu' : platform === 'ios' ? 'Futura' : 'sans-serif',
-			fontSize: fontSize.caption.verySmall,
-			color: theme.text.body || 'lightgrey',
-			// fontWeight: 'bold',
-		},
-		resultsContainer: {
-			backgroundColor: theme.elevation.medium,
-			alignItems: 'center',
-			justifyContent: 'flex-start',
-			width: '90%',
-			margin: 15,
-			padding: 10,
-			borderWidth: 1,
-			borderColor: theme.isDark ? 'lightgrey' : '#121212',
-			borderRadius: 5,
-		},
-		calculateButtonContainer: {
-			marginTop: 20,
-			marginBottom: 10,
-		},
-		textTitleResults: {
-			fontFamily: fontsLoaded ? 'ubuntu' : platform === 'ios' ? 'Futura' : 'sans-serif',
-			fontSize: fontSize.caption.small,
-			color: theme.text.caption || 'red',
-			textAlign: 'center',
-			marginBottom: 10,
-		},
-		textResults: {
-			fontFamily: fontsLoaded ? 'ubuntu' : platform === 'ios' ? 'Futura' : 'sans-serif',
-			fontSize: fontSize.body,
-			color: theme.text.body || 'red',
-			textAlign: 'center',
-			marginBottom: 10,
-			marginTop: 5,
-		},
-		textBodyBold: {
-			fontFamily: fontsLoaded ? 'ubuntuBold' : platform === 'ios' ? 'Futura' : 'sans-serif',
-			fontSize: fontSize.body,
-			color: theme.primary || 'red',
-			textAlign: 'center',
-			marginBottom: 10,
-		},
-		copyButtonContainer: {
-			flexDirection: 'row',
-			justifyContent: 'space-evenly',
-			width: windowWidth * 0.8,
-			maxWidth: 300,
-			marginTop: 0,
-			marginBottom: 10,
-			// borderColor: 'red',
-			// borderWidth: 1,
-		},
-		resetButtonContainer: {
-			marginTop: 10,
-			marginBottom: 30,
-		},
-		modalBackScreen: {
-			flex: 1,
-			justifyContent: 'center',
-			alignItems: 'center',
-			marginTop: 22,
-			backgroundColor: theme.modalBackScreen,
-		},
-		modalContainer: {
-			justifyContent: 'flex-start',
-			alignItems: 'center',
-			padding: 10,
-			backgroundColor: theme.elevation.low,
-			maxWidth: 400,
-			width: windowWidth * 0.85,
-			minHeight: windowHeight * 0.2,
-			borderRadius: 4,
-		},
-		modalTitleContainer: {
-			marginVertical: 10,
-			// backgroundColor: 'red',
-		},
-		modalBodyContainer: {
-			// flex: 2,
-			// backgroundColor: 'firebrick',
-			maxWidth: 380,
-			width: windowWidth * 0.75,
-			justifyContent: 'center',
-			alignItems: 'center',
-		},
-		modalButtonContainer: {
-			maxWidth: 400,
-			width: windowWidth * 0.85,
-			flexDirection: 'row',
-			marginVertical: 10,
-			justifyContent: 'space-evenly',
-			// backgroundColor: 'pink',
-		},
-		feedbackModalBackScreen: {
-			flex: 1,
-			justifyContent: 'center',
-			alignItems: 'center',
-			// marginTop: 22,
-			// backgroundColor: theme.modalBackScreen,
-		},
-		feedbackModalContainer: {
-			justifyContent: 'flex-start',
-			alignItems: 'center',
-			padding: 10,
-			backgroundColor: theme.isDark ? 'rgba(255,255,255, 0.9)' : 'rgba(0,0,0, 0.7)',
-			// minWidth: windowWidth * 0.6,
-			// maxHeight: windowHeight * 0.4,
-			borderRadius: 4,
-			bottom: 40,
-		},
-		feedbackText: {
-			fontFamily: fontsLoaded ? 'ubuntu' : platform === 'ios' ? 'Futura' : 'sans-serif',
-			fontSize: fontSize.caption.verySmall,
-			color: theme.text.contrary.title || 'red',
-			textAlign: 'center',
-			// marginBottom: 10,
-		},
-	});
+  return (
+    <View style={styles.container}>
+      <ScrollView contentContainerStyle={{ width: windowWidth, alignItems: 'center' }}>
+        {/* Paso 1 */}
+        <View style={styles.stepContainer}>
+          <Text style={styles.textTitle}>Paso 1: registrá los gastos</Text>
 
-	return (
-		<View style={styles.container}>
-			<ScrollView contentContainerStyle={{ width: windowWidth, alignItems: 'center' }}>
-				{/* Paso 1 */}
-				<View style={styles.stepContainer}>
-					<Text style={styles.textTitle}>Paso 1: registrá los gastos</Text>
-					{peopleForCalcs.map((person, i, arr) => {
-						return (
-							<View key={i} style={styles.singlePeopleContainer}>
-								<View style={styles.nameInputContainer}>
-									<Text style={styles.textBodyPeople}>Persona {i + 1}</Text>
-									{/* Nombres */}
-									<TextInputComponent value={peopleForCalcs[i].name} onChangeCallback={handleChange} name={'name'} i={i} />
-								</View>
-								<View style={styles.spentInputContainer}>
-									<Text style={styles.textBodyPeople}>Gastos</Text>
-									{/* Montos */}
-									<TextInputComponent value={peopleForCalcs[i].spent} onChangeCallback={handleChange} name={'spent'} keyboardType='number-pad' i={i} />
-								</View>
-								<View style={styles.removePeopleButtonContainer}>
-									<Pressable
-										style={styles.removePeopleButton}
-										onPress={() => {
-											handleRemovePeople(i);
-										}}>
-										<Ionicons name='ios-close' color='white' size={16} style={{ marginHorizontal: 0, justifyContent: 'center', alignItems: 'center' }}></Ionicons>
-									</Pressable>
-								</View>
-							</View>
-						);
-					})}
-					<View style={styles.addPeopleButtonContainer}>
-						<TextButtonComponent text='Agregar persona' textColor={theme.text.contrary.caption} backgroundColor={theme.primary} onPress={handleAddPeople} />
-					</View>
-				</View>
-				{/* Paso 1 */}
+          {peopleForCalcs.map((person, i, arr) => {
+            return <PeopleInputRow key={i} num={i} name={person.name} spent={person.spent} onChange={handleChange} onRemove={handleRemove} />;
+          })}
 
-				{/* Paso 2 */}
-				<View style={styles.stepContainer}>
-					<Text style={styles.textTitle}>Paso 2: calculá y obtené los resultados</Text>
+          <View style={styles.addPeopleButtonContainer}>
+            <TextButton label='Agregar persona' textColor={theme.text.contrary.caption} backgroundColor={theme.primary} onPress={handleAddPeople} />
+          </View>
+        </View>
+        {/* Paso 1 */}
 
-					{/* Results */}
-					<View style={styles.resultsContainer}>
-						{payments && payments.length > 0 ? <Text style={styles.textTitleResults}>Los siguientes pagos dejarán las cuentas equilibradas:</Text> : <Text style={styles.textTitleResults}>Los resultados aparecerán aquí</Text>}
-						<View>
-							{payments && payments.length > 0 ? (
-								payments.map((payment, i) => {
-									return (
-										<Text style={styles.textResults} key={i}>
-											<Text style={styles.textBodyBold}>{payment.from}</Text> le debe a <Text style={styles.textBodyBold}>{payment.to}</Text>: ${payment.amount}
-										</Text>
-									);
-								})
-							) : (
-								<Text style={styles.textResults}>No hay resultados aún</Text>
-							)}
-						</View>
-					</View>
-					{/* Results */}
+        {/* Paso 2 */}
+        <View style={styles.stepContainer}>
+          <Text style={styles.textTitle}>Paso 2: calculá y obtené los resultados</Text>
 
-					{/* Calculate and Copy buttons */}
-					<View>
-						{payments && payments.length > 0 ? (
-							<View style={styles.copyButtonContainer}>
-								<TextButtonComponent text='Calcular' textColor={theme.text.contrary.caption} backgroundColor={theme.secondary} onPress={handleSubmit} />
-								<TextButtonComponent text='Copiar' textColor={theme.text.contrary.title} backgroundColor={theme.secondary} onPress={handleCopy} />
-							</View>
-						) : (
-							<View style={styles.copyButtonContainer}>
-								<TextButtonComponent text='Calcular' textColor={theme.text.contrary.caption} backgroundColor={theme.secondary} onPress={handleSubmit} />
-							</View>
-						)}
-					</View>
-					{/* Calculate and Copy buttons */}
-				</View>
-				{/* Paso 2 */}
+          {/* Results */}
+          <View style={styles.resultsContainer}>
+            {payments && payments.length > 0 ? (
+              <Text style={styles.textTitleResults}>Los siguientes pagos dejarán las cuentas equilibradas:</Text>
+            ) : (
+              <Text style={styles.textTitleResults}>Los resultados aparecerán aquí</Text>
+            )}
+            <View>
+              {payments && payments.length > 0 ? (
+                payments.map((payment, i) => {
+                  return (
+                    <Text style={styles.textResults} key={i}>
+                      <Text style={styles.textBodyBold}>{payment.from}</Text> le debe a <Text style={styles.textBodyBold}>{payment.to}</Text>: ${payment.amount}
+                    </Text>
+                  );
+                })
+              ) : (
+                <Text style={styles.textResults}>No hay resultados aún</Text>
+              )}
+            </View>
+          </View>
+          {/* Results */}
 
-				{/* Reset Button */}
-				<View style={styles.resetButtonContainer}>
-					<TextButtonComponent
-						text='Empezar de nuevo'
-						textColor={theme.text.contrary.caption}
-						backgroundColor={theme.primary}
-						onLongPress={() => handleReset()}
-						onPress={() => {
-							setShowResetModal(true);
-						}}
-					/>
-				</View>
-				{/* Reset Button */}
+          {/* Calculate and Copy buttons */}
+          <View>
+            {payments && payments.length > 0 ? (
+              <View style={styles.copyButtonContainer}>
+                <TextButton label='Calcular' textColor={theme.text.contrary.caption} backgroundColor={theme.secondary} onPress={handleSubmit} />
+                <TextButton label='Copiar' textColor={theme.text.contrary.title} backgroundColor={theme.secondary} onPress={handleCopy} />
+              </View>
+            ) : (
+              <View style={styles.copyButtonContainer}>
+                <TextButton label='Calcular' textColor={theme.text.contrary.caption} backgroundColor={theme.secondary} onPress={handleSubmit} />
+              </View>
+            )}
+          </View>
+          {/* Calculate and Copy buttons */}
+        </View>
+        {/* Paso 2 */}
 
-				{/* Footer */}
-				<FooterComponent />
-				{/* Footer */}
+        {/* Reset Button */}
+        <View style={styles.resetButtonContainer}>
+          <TextButton
+            label='Empezar de nuevo'
+            textColor={theme.text.contrary.caption}
+            backgroundColor={theme.primary}
+            onLongPress={() => {
+              return handleReset();
+            }}
+            onPress={() => {
+              setShowResetModal(true);
+            }}
+          />
+        </View>
+        {/* Reset Button */}
 
-				{/* MODALS */}
-				{/* <---------- CONFIRM RESET MODAL ----------> */}
-				<Modal visible={showResetModal} transparent={true}>
-					<View style={styles.modalBackScreen}>
-						<View style={styles.modalContainer}>
-							<View style={styles.modalTitleContainer}>
-								<Text style={styles.textTitle}>Quieres resetear todos los campos?</Text>
-							</View>
-							<View style={styles.modalBodyContainer}>
-								<Text style={styles.textResults}>Se borrarán todos los campos y los resultados del último cálculo que hayas realizado.</Text>
-							</View>
-							<View style={styles.modalButtonContainer}>
-								<TextButtonComponent text='Cancelar' textColor={theme.text.contrary.title} backgroundColor={theme.primary} onPress={() => setShowResetModal(false)} />
-								<TextButtonComponent
-									text='Confirmar'
-									textColor={theme.text.contrary.title}
-									backgroundColor={theme.secondary}
-									onPress={() => {
-										handleReset();
-										setShowResetModal(false);
-									}}
-								/>
-							</View>
-						</View>
-					</View>
-				</Modal>
-				{/* <---------- CONFIRM RESET MODAL ----------> */}
-				{/* <---------- COPIED TO CLIPBOARD FEEDBACK MODAL ----------> */}
-				<Modal visible={showFeedbackModal} transparent={true} animationType='fade'>
-					<View style={styles.feedbackModalBackScreen}>
-						<View style={styles.feedbackModalContainer}>
-							<Text style={styles.feedbackText}>Copiado al portapapeles</Text>
-						</View>
-					</View>
-				</Modal>
-				{/* <---------- COPIED TO CLIPBOARD FEEDBACK MODAL ----------> */}
-			</ScrollView>
-		</View>
-	);
+        {/* <---------- CONFIRM RESET MODAL ----------> */}
+        <CustomModal
+          visible={showResetModal}
+          primaryButton
+          primaryButtonLabel='Confirmar'
+          primaryButtonAction={() => {
+            handleReset();
+            setShowResetModal(false);
+          }}
+          secondaryButton
+          secondaryButtonLabel='Cancelar'
+          secondaryButtonAction={() => {
+            return setShowResetModal(false);
+          }}>
+          <View style={styles.modalTitleContainer}>
+            <Text style={styles.textTitle}>Quieres resetear todos los campos?</Text>
+          </View>
+          <View style={styles.modalBodyContainer}>
+            <Text style={styles.textResults}>Se borrarán todos los campos y los resultados del último cálculo que hayas realizado.</Text>
+          </View>
+        </CustomModal>
+
+        {/* <---------- COPIED TO CLIPBOARD SNACKBAR ----------> */}
+        <SnackBar visible={showFeedbackModal} text='Copiado al portapapeles  📎' />
+      </ScrollView>
+    </View>
+  );
 }

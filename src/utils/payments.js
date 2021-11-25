@@ -9,100 +9,109 @@
 // ];
 
 export const calculate_basicPayment = function (arrayPersonasPago) {
-	var gastos = [];
+  const gastos = [];
 
-	arrayPersonasPago.map((person) => {
-		if (person.spent > 0) {
-			gastos.push(person);
-		}
-	});
+  arrayPersonasPago.forEach((person) => {
+    if (person.spent > 0) {
+      gastos.push(person);
+    }
+  });
 
-	var pagos = [];
+  const pagos = [];
 
-	gastos.map((gasto) => {
-		pagos.push(gasto.spent / arrayPersonasPago.length);
-	});
-	var pagoGeneral = pagos.reduce((a, b) => a + b, 0);
+  gastos.forEach((gasto) => {
+    pagos.push(gasto.spent / arrayPersonasPago.length);
+  });
 
-	var deudas = [];
+  const pagoGeneral = pagos.reduce((a, b) => {
+    return a + b;
+  }, 0);
 
-	arrayPersonasPago.map((persona) => {
-		deudas.push({ name: persona.name, deuda: Math.floor(pagoGeneral - persona.spent) });
-	});
+  const deudas = [];
 
-	// proceso de pagos
-	var deudores = [];
-	var gastadores = [];
+  arrayPersonasPago.forEach((persona) => {
+    deudas.push({ name: persona.name, deuda: Math.floor(pagoGeneral - persona.spent) });
+  });
 
-	deudas.map((persona) => {
-		if (persona.deuda > 0) {
-			deudores.push(persona);
-		} else {
-			gastadores.push(persona);
-		}
-	});
+  // proceso de pagos
+  const deudores = [];
+  const gastadores = [];
 
-	var resultados = [];
+  deudas.forEach((persona) => {
+    if (persona.deuda > 0) {
+      deudores.push(persona);
+    } else {
+      gastadores.push(persona);
+    }
+  });
 
-	for (let i = 0; i < gastadores.length; i++) {
-		for (let j = 0; j < deudores.length; j++) {
-			// si el deudor j tiene que pagar menos de lo que tiene que recibir el gastador i
-			// (aca se resuelve el deudor j)
-			if (gastadores[i].deuda + deudores[j].deuda < 0) {
-				// Este if es para que no lleguen al resultado pagos de $ 0
-				if (gastadores[i].deuda !== 0) {
-					resultados.push({
-						from: deudores[j].name,
-						amount: deudores[j].deuda,
-						to: gastadores[i].name,
-					});
-				}
+  const resultados = [];
 
-				gastadores[i].deuda += deudores[j].deuda;
-				deudores[j].deuda = 0;
+  for (let i = 0; i < gastadores.length; i++) {
+    for (let j = 0; j < deudores.length; j++) {
+      // si el deudor j tiene que pagar menos de lo que tiene que recibir el gastador i
+      // (aca se resuelve el deudor j)
+      if (gastadores[i].deuda + deudores[j].deuda < 0) {
+        // Este if es para que no lleguen al resultado pagos de $ 0
+        if (gastadores[i].deuda !== 0) {
+          resultados.push({
+            from: deudores[j].name,
+            amount: deudores[j].deuda,
+            to: gastadores[i].name,
+          });
+        }
 
-				if (i >= gastadores.length) return resultados; // Para no pasarme de la cantidad de gastadores (sloppy)
-			}
-			// si el deudor j tiene que pagar exactamente lo que tiene que recibir el gastador i
-			// (aca se resuelve el gastador i y el deudor j)
-			else if (deudores[j].deuda + gastadores[i].deuda === 0) {
-				// Este if es para que no lleguen al resultado pagos de $ 0
-				if (gastadores[i].deuda !== 0) {
-					resultados.push({
-						from: deudores[j].name,
-						amount: deudores[j].deuda,
-						to: gastadores[i].name,
-					});
-				}
+        gastadores[i].deuda += deudores[j].deuda;
+        deudores[j].deuda = 0;
 
-				gastadores[i].deuda += deudores[j].deuda;
-				deudores[j].deuda = 0;
-				gastadores[i].deuda = 0; // esto no seria necesario, pero bueno
-				i++;
+        if (i >= gastadores.length) {
+          return resultados;
+        } // Para no pasarme de la cantidad de gastadores (sloppy)
+      }
+      // si el deudor j tiene que pagar exactamente lo que tiene que recibir el gastador i
+      // (aca se resuelve el gastador i y el deudor j)
+      else if (deudores[j].deuda + gastadores[i].deuda === 0) {
+        // Este if es para que no lleguen al resultado pagos de $ 0
+        if (gastadores[i].deuda !== 0) {
+          resultados.push({
+            from: deudores[j].name,
+            amount: deudores[j].deuda,
+            to: gastadores[i].name,
+          });
+        }
 
-				if (i >= gastadores.length) return resultados; // Para no pasarme de la cantidad de gastadores (sloppy)
-				continue;
-			}
-			// si el deudor j tiene que pagar mas de lo que tiene que recibir el gastador i
-			// (aca se resuelve el gastador i)
-			else {
-				// Este if es para que no lleguen al resultado pagos de $ 0
-				if (gastadores[i].deuda !== 0) {
-					resultados.push({
-						from: deudores[j].name,
-						amount: gastadores[i].deuda * -1,
-						to: gastadores[i].name,
-					});
-				}
-				deudores[j].deuda += gastadores[i].deuda; // > 0
-				gastadores[i].deuda = 0;
+        gastadores[i].deuda += deudores[j].deuda;
+        deudores[j].deuda = 0;
+        gastadores[i].deuda = 0; // esto no seria necesario, pero bueno
+        i++;
 
-				if (i >= gastadores.length - 1) return resultados; // Para no pasarme de la cantidad de gastadores (sloppy)
-				i++;
-				j--; // ? (sloppy)
-			}
-		}
-	}
+        if (i >= gastadores.length) {
+          return resultados;
+        } // Para no pasarme de la cantidad de gastadores (sloppy)
+        continue;
+      }
+      // si el deudor j tiene que pagar mas de lo que tiene que recibir el gastador i
+      // (aca se resuelve el gastador i)
+      else {
+        // Este if es para que no lleguen al resultado pagos de $ 0
+        if (gastadores[i].deuda !== 0) {
+          resultados.push({
+            from: deudores[j].name,
+            amount: gastadores[i].deuda * -1,
+            to: gastadores[i].name,
+          });
+        }
+        deudores[j].deuda += gastadores[i].deuda; // > 0
+        gastadores[i].deuda = 0;
 
-	return resultados;
+        if (i >= gastadores.length - 1) {
+          return resultados;
+        } // Para no pasarme de la cantidad de gastadores (sloppy)
+        i++;
+        j--; // ? (sloppy)
+      }
+    }
+  }
+
+  return resultados;
 };

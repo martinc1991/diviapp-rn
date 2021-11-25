@@ -3,9 +3,9 @@
 
 // Basic payment calculation
 export const changeTheme = (dispatch) => {
-	try {
-		dispatch({ type: 'CHANGE_THEME', payload: '' });
-	} catch (error) {
-		console.log(error.message);
-	}
+  try {
+    dispatch({ type: 'CHANGE_THEME', payload: '' });
+  } catch (error) {
+    console.log(error.message);
+  }
 };

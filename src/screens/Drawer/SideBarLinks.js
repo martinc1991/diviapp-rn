@@ -10,27 +10,27 @@
 // NO HACE FALTA MODIFICAR EL ARCHIVO CustomDrawerContent.js
 
 const SideBarLinks = [
-	{
-		sectionTitle: 'Cálculos',
-		links: [
-			{
-				label: 'Cálculo Básico',
-				icon: 'git-network',
-				screen: 'BasicCalculation',
-			},
-		],
-	},
+  {
+    sectionTitle: 'Cálculos',
+    links: [
+      {
+        label: 'Cálculo Básico',
+        icon: 'git-network',
+        screen: 'BasicCalculation',
+      },
+    ],
+  },
 
-	{
-		sectionTitle: 'Acerca',
-		links: [
-			{
-				label: 'Acerca',
-				icon: 'information-circle-outline',
-				screen: 'About',
-			},
-		],
-	},
+  {
+    sectionTitle: 'Acerca',
+    links: [
+      {
+        label: 'Acerca',
+        icon: 'information-circle-outline',
+        screen: 'About',
+      },
+    ],
+  },
 ];
 
 export default SideBarLinks;

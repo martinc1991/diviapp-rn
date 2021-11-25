@@ -1,12 +1,12 @@
 import { combineReducers } from 'redux';
-import users from './users';
+import fontSize from './fontSize';
 import payments from './payments';
 import theme from './theme';
-import fontSize from './fontSize';
+import users from './users';
 
 export default combineReducers({
-	users,
-	payments,
-	theme,
-	fontSize,
+  users,
+  payments,
+  theme,
+  fontSize,
 });

@@ -1,0 +1,46 @@
+{
+  "env": {
+    "es2021": true,
+    "node": true,
+    "browser": true
+  },
+  "ignorePatterns": ["*.config.js"],
+  "extends": ["plugin:react/recommended", "standard", "prettier"],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "plugins": ["react"],
+  "rules": {
+    "arrow-body-style": ["error", "always"],
+    "block-scoped-var": "warn",
+    "camelcase": "warn",
+    "curly": ["error", "all"],
+    "react/prop-types": "off",
+    "default-case": "warn",
+    "default-case-last": "warn",
+    "no-param-reassign": ["warn", { "props": true }],
+    "no-return-await": "error",
+    "no-shadow": "error",
+    "no-undef-init": "error",
+    "no-var": "warn",
+    "one-var-declaration-per-line": ["error", "always"],
+    "prefer-const": [
+      "error",
+      {
+        "destructuring": "all",
+        "ignoreReadBeforeAssign": false
+      }
+    ],
+    "require-await": "error",
+    "no-alert": "error",
+    "react/no-unescaped-entities": "warn",
+    "no-useless-escape": "warn",
+    "no-prototype-builtins": "warn"
+  },
+  "noInlineConfig": true,
+  "reportUnusedDisableDirectives": true
+}
